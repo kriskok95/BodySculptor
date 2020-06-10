@@ -13,7 +13,7 @@ namespace BodySculptor.API
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
     using BodySculptor.API.Data.Models;
-    using BodySculptor.API.Infrastructure;
+    using BodySculptor.API.Data.Seeding;
 
     public class Startup
     {
@@ -71,6 +71,21 @@ namespace BodySculptor.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<BodySculptorDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new BodySculptorDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,7 +107,6 @@ namespace BodySculptor.API
                 endpoints.MapControllers();
             });
 
-            //app.AppMigrations();
         }
     }
 }
