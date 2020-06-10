@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodySculptor.API.Migrations
 {
     [DbContext(typeof(BodySculptorDbContext))]
-    [Migration("20200609190753_InitialCreate")]
+    [Migration("20200610200548_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,9 +113,6 @@ namespace BodySculptor.API.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SecondaryMuscleGroupsId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -261,9 +258,6 @@ namespace BodySculptor.API.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExerciseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -272,9 +266,22 @@ namespace BodySculptor.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExerciseId");
-
                     b.ToTable("MuscleGroups");
+                });
+
+            modelBuilder.Entity("BodySculptor.API.Data.Models.MuscleGroupExercises", b =>
+                {
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MuscleGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExerciseId", "MuscleGroupId");
+
+                    b.HasIndex("MuscleGroupId");
+
+                    b.ToTable("MuscleGroupExercises");
                 });
 
             modelBuilder.Entity("BodySculptor.API.Data.Models.TrainingSession", b =>
@@ -580,11 +587,19 @@ namespace BodySculptor.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BodySculptor.API.Data.Models.MuscleGroup", b =>
+            modelBuilder.Entity("BodySculptor.API.Data.Models.MuscleGroupExercises", b =>
                 {
-                    b.HasOne("BodySculptor.API.Data.Models.Exercise", null)
-                        .WithMany("SecondaryMuscleGroups")
-                        .HasForeignKey("ExerciseId");
+                    b.HasOne("BodySculptor.API.Data.Models.Exercise", "Exercise")
+                        .WithMany("SecondaryMuscleGroupExercises")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BodySculptor.API.Data.Models.MuscleGroup", "MuscleGroup")
+                        .WithMany("SecondaryMuscleGroupExercises")
+                        .HasForeignKey("MuscleGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BodySculptor.API.Data.Models.TrainingSession", b =>

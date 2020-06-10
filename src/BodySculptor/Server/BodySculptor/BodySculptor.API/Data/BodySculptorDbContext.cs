@@ -21,6 +21,7 @@
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<ExercisePractice> ExercisePractices{ get; set; }
         public DbSet<ExerciseExercisePractices> ExerciseExercisePractices { get; set; }
+        public DbSet<MuscleGroupExercises> MuscleGroupExercises { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -49,6 +50,20 @@
                 .HasOne(x => x.User)
                 .WithMany(x => x.ExercisePractices)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MuscleGroupExercises>()
+                .HasOne(x => x.Exercise)
+                .WithMany(x => x.SecondaryMuscleGroupExercises)
+                .HasForeignKey(x => x.ExerciseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MuscleGroupExercises>()
+                .HasOne(x => x.MuscleGroup)
+                .WithMany(x => x.SecondaryMuscleGroupExercises)
+                .HasForeignKey(x => x.MuscleGroupId);
+
+            builder.Entity<MuscleGroupExercises>()
+                .HasKey(x => new { x.ExerciseId, x.MuscleGroupId });
         }
     }
 }

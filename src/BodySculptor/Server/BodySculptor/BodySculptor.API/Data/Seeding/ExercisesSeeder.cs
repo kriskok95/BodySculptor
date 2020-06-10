@@ -16,7 +16,7 @@
             }
 
             //Chest
-            await dbContext.Exercises.AddAsync(new Exercise { Name = "Barbell Flat Bench Presses", MainMuscleGroupId = 1,  SecondaryMuscleGroupsId = new List<int> {4, 8 },  })
+            //await dbContext.Exercises.AddAsync(new Exercise { Name = "Barbell Flat Bench Presses", MainMuscleGroupId = 1,  SecondaryMuscleGroupsId = new List<int> {4, 8 },  })
         }
     }
 }

@@ -16,8 +16,7 @@
         public int MainMuscleGroupId { get; set; }
         public MuscleGroup MainMuscleGroup { get; set; }
 
-        public int SecondaryMuscleGroupsId { get; set; }
-        public ICollection<MuscleGroup> SecondaryMuscleGroups { get; set; }
+        public ICollection<MuscleGroupExercises> SecondaryMuscleGroupExercises { get; set; }
 
         public ICollection<ExerciseExercisePractices> ExerciseExercisePractices { get; set; }
     }

@@ -7,5 +7,7 @@
         public string Name { get; set; }
 
         public ICollection<Exercise> Exercises { get; set; }
+
+        public ICollection<MuscleGroupExercises> SecondaryMuscleGroupExercises { get; set; }
     }
 }

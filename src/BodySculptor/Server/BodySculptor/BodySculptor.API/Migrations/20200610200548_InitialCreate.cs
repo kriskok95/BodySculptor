@@ -62,6 +62,21 @@ namespace BodySculptor.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MuscleGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MuscleGroups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -240,6 +255,30 @@ namespace BodySculptor.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: true),
+                    CaloriesBurned = table.Column<int>(nullable: false),
+                    MainMuscleGroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exercises_MuscleGroups_MainMuscleGroupId",
+                        column: x => x.MainMuscleGroupId,
+                        principalTable: "MuscleGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Foods",
                 columns: table => new
                 {
@@ -292,6 +331,12 @@ namespace BodySculptor.API.Migrations
                 {
                     table.PrimaryKey("PK_ExercisePractices", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_ExercisePractices_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_ExercisePractices_ExercisesSets_TrainingSessionId",
                         column: x => x.TrainingSessionId,
                         principalTable: "ExercisesSets",
@@ -306,6 +351,30 @@ namespace BodySculptor.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MuscleGroupExercises",
+                columns: table => new
+                {
+                    ExerciseId = table.Column<int>(nullable: false),
+                    MuscleGroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MuscleGroupExercises", x => new { x.ExerciseId, x.MuscleGroupId });
+                    table.ForeignKey(
+                        name: "FK_MuscleGroupExercises_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MuscleGroupExercises_MuscleGroups_MuscleGroupId",
+                        column: x => x.MuscleGroupId,
+                        principalTable: "MuscleGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExerciseExercisePractices",
                 columns: table => new
                 {
@@ -316,50 +385,15 @@ namespace BodySculptor.API.Migrations
                 {
                     table.PrimaryKey("PK_ExerciseExercisePractices", x => new { x.ExercisePracticeId, x.ExerciseId });
                     table.ForeignKey(
+                        name: "FK_ExerciseExercisePractices_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_ExerciseExercisePractices_ExercisePractices_ExercisePracticeId",
                         column: x => x.ExercisePracticeId,
                         principalTable: "ExercisePractices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MuscleGroups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    ExerciseId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MuscleGroups", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Exercises",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
-                    Image = table.Column<byte[]>(nullable: true),
-                    CaloriesBurned = table.Column<int>(nullable: false),
-                    MainMuscleGroupId = table.Column<int>(nullable: false),
-                    SecondaryMuscleGroupsId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Exercises", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Exercises_MuscleGroups_MainMuscleGroupId",
-                        column: x => x.MainMuscleGroupId,
-                        principalTable: "MuscleGroups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -454,41 +488,13 @@ namespace BodySculptor.API.Migrations
                 column: "FoodCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MuscleGroups_ExerciseId",
-                table: "MuscleGroups",
-                column: "ExerciseId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ExercisePractices_Exercises_ExerciseId",
-                table: "ExercisePractices",
-                column: "ExerciseId",
-                principalTable: "Exercises",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseExercisePractices_Exercises_ExerciseId",
-                table: "ExerciseExercisePractices",
-                column: "ExerciseId",
-                principalTable: "Exercises",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_MuscleGroups_Exercises_ExerciseId",
-                table: "MuscleGroups",
-                column: "ExerciseId",
-                principalTable: "Exercises",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                name: "IX_MuscleGroupExercises_MuscleGroupId",
+                table: "MuscleGroupExercises",
+                column: "MuscleGroupId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_MuscleGroups_Exercises_ExerciseId",
-                table: "MuscleGroups");
-
             migrationBuilder.DropTable(
                 name: "Articles");
 
@@ -514,6 +520,9 @@ namespace BodySculptor.API.Migrations
                 name: "Foods");
 
             migrationBuilder.DropTable(
+                name: "MuscleGroupExercises");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -526,16 +535,16 @@ namespace BodySculptor.API.Migrations
                 name: "FoodCategories");
 
             migrationBuilder.DropTable(
-                name: "ExercisesSets");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Exercises");
 
             migrationBuilder.DropTable(
+                name: "ExercisesSets");
+
+            migrationBuilder.DropTable(
                 name: "MuscleGroups");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
