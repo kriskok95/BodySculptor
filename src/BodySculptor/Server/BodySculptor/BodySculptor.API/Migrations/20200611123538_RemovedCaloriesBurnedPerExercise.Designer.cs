@@ -4,14 +4,16 @@ using BodySculptor.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BodySculptor.API.Migrations
 {
     [DbContext(typeof(BodySculptorDbContext))]
-    partial class BodySculptorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200611123538_RemovedCaloriesBurnedPerExercise")]
+    partial class RemovedCaloriesBurnedPerExercise
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

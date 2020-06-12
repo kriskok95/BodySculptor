@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Exercise : BaseModel<int>
     {
@@ -10,8 +9,6 @@
         public string Name { get; set; }
 
         public byte[] Image { get; set; }
-
-        public int CaloriesBurned { get; set; }
 
         public int MainMuscleGroupId { get; set; }
         public MuscleGroup MainMuscleGroup { get; set; }

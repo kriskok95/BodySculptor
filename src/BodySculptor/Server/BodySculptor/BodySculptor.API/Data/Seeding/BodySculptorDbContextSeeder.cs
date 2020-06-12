@@ -27,6 +27,8 @@
                               new FoodCategoriesSeeder(),
                               new MuscleGroupsSeeder(),
                               new FoodsSeeder(),
+                              new ExercisesSeeder(),
+                              new MuscleGroupExercisesSeeder(),
                           };
 
             foreach (var seeder in seeders)
