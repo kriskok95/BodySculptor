@@ -14,6 +14,9 @@ namespace BodySculptor.API
     using System.Text;
     using BodySculptor.API.Data.Models;
     using BodySculptor.API.Data.Seeding;
+    using AutoMapper;
+    using BodySculptor.API.Services.Interfaces;
+    using BodySculptor.API.Services;
 
     public class Startup
     {
@@ -66,7 +69,12 @@ namespace BodySculptor.API
                     };
                 });
 
-            services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IFoodsService, FoodsService>();
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
