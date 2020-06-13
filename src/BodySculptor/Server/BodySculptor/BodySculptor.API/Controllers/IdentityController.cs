@@ -1,7 +1,7 @@
 ﻿namespace BodySculptor.API.Controllers
 {
-    using BodySculptor.API.Data.Models;
-    using BodySculptor.API.Models.Identity;
+    using BodySculptor.Data.Entities.Entities;
+    using BodySculptor.Models.Identity;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;

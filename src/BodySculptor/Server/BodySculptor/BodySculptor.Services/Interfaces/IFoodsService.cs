@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.API.Services.Interfaces
+﻿namespace BodySculptor.Services.Interfaces
 {
     using BodySculptor.Models.Foods;
     using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿namespace BodySculptor.API.Infrastructure
 {
-    using BodySculptor.API.Data;
+    using BodySculptor.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;

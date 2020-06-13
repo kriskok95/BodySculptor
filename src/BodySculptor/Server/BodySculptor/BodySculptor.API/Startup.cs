@@ -5,18 +5,19 @@ namespace BodySculptor.API
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
-    using BodySculptor.API.Data;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
-    using BodySculptor.API.Data.Models;
-    using BodySculptor.API.Data.Seeding;
     using AutoMapper;
     using BodySculptor.API.Services.Interfaces;
     using BodySculptor.API.Services;
+    using BodySculptor.Data.Entities.Entities;
+    using BodySculptor.Data.Seeding;
+    using BodySculptor.Data;
+    using BodySculptor.Services.Mapping.Profiles;
 
     public class Startup
     {
@@ -69,7 +70,9 @@ namespace BodySculptor.API
                     };
                 });
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(
+                typeof(FoodsProfile));
+
             services.AddTransient<IFoodsService, FoodsService>();
 
             services.AddControllers()

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BodySculptor.Data.Entities\BodySculptor.Data.Entities.csproj" />
+    <ProjectReference Include="..\BodySculptor.Models\BodySculptor.Models.csproj" />
+  </ItemGroup>
+
+</Project>
