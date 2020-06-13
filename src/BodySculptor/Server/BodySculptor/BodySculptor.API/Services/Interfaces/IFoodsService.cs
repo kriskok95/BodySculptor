@@ -19,5 +19,7 @@
         Task<bool> IsFoodExistsAsync(string foodName);
 
         Task<FoodDto> EditFoodAsync(int foodId, FoodForUpdateDto food);
+
+        Task DeleteFood(int foodId);
     }
 }

@@ -92,7 +92,24 @@
             return CreatedAtRoute("GetFood",
                 new { foodId },
                 foodToReturn);
+        }
 
+
+        [HttpDelete("{FoodId}")]
+        public async Task<ActionResult> DeleteFood(int foodId)
+        {
+            var isFoodExists = await this.foodsService
+                .IsFoodExistsAsync(foodId);
+
+            if (!isFoodExists)
+            {
+                return NotFound("Food with the given ID doesn't exists.");
+            }
+
+            await this.foodsService
+                .DeleteFood(foodId);
+
+            return NoContent();
         }
     }
 }

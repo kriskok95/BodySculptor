@@ -10,7 +10,6 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using BodySculptor.API.Data.Models;
-    using Microsoft.AspNetCore.Server.IIS.Core;
 
     public class FoodsService : IFoodsService
     {
@@ -54,6 +53,27 @@
                 .FirstOrDefaultAsync(x => x.Name == food.Name));
 
             return foodDto;
+        }
+
+        public async Task DeleteFood(int foodId)
+        {
+            var isFoodExists = await this.context
+                .Foods
+                .AnyAsync(food => food.Id == foodId);
+
+            if (!isFoodExists)
+            {
+                throw new ArgumentException($"Food with the given ID: {foodId} doesn't exists!");
+            }
+
+            var foodToRemove = new Food { Id = foodId };
+
+            this.context
+                .Foods
+                .Remove(foodToRemove);
+
+            await this.context
+                .SaveChangesAsync();
         }
 
         public async Task<FoodDto> EditFoodAsync(int foodId, FoodForUpdateDto food)
