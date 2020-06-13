@@ -17,5 +17,7 @@
         Task<FoodDto> CreateFoodAsync(FoodForCreationDto food);
 
         Task<bool> IsFoodExistsAsync(string foodName);
+
+        Task<FoodDto> EditFoodAsync(int foodId, FoodForUpdateDto food);
     }
 }

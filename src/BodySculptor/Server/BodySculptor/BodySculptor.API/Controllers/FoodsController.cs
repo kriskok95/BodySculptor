@@ -48,7 +48,7 @@
 
             if (!isFoodCategoryExists)
             {
-                return BadRequest();
+                return NotFound("Category with the given id doesn't exists");
             }
 
             var isFoodExists = await this.foodsService
@@ -65,6 +65,34 @@
             return CreatedAtRoute("GetFood",
                 new { foodId = foodToReturn.Id },
                 foodToReturn);
+        }
+
+        [HttpPut("{foodId}")]
+        public async Task<ActionResult> EditFood(int foodId, FoodForUpdateDto food)
+        {
+            var isFoodExists = await this.foodsService
+                .IsFoodExistsAsync(foodId);
+
+            if (!isFoodExists)
+            {
+                return NotFound("Food with the given id doesn't exists");
+            }
+
+            var isFoodCategoryExists = await this.foodsService
+                .IsFoodCategoryExistsAsync(food.FoodCategoryId);
+
+            if (!isFoodCategoryExists)
+            {
+                return NotFound("Category with the given id doesn't exists");
+            }
+
+            var foodToReturn = await this.foodsService
+                .EditFoodAsync(foodId, food);
+
+            return CreatedAtRoute("GetFood",
+                new { foodId },
+                foodToReturn);
+
         }
     }
 }

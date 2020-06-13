@@ -10,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using BodySculptor.API.Data.Models;
+    using Microsoft.AspNetCore.Server.IIS.Core;
 
     public class FoodsService : IFoodsService
     {
@@ -53,6 +54,32 @@
                 .FirstOrDefaultAsync(x => x.Name == food.Name));
 
             return foodDto;
+        }
+
+        public async Task<FoodDto> EditFoodAsync(int foodId, FoodForUpdateDto food)
+        {
+            var isFoodExists = await IsFoodExistsAsync(foodId);
+
+            if (!isFoodExists)
+            {
+                throw new ArgumentException($"Food with ID: {foodId} doesn't exists!");
+            }
+
+            var foodFromDb = await this.context
+                .Foods
+                .Include(x => x.FoodCategory)
+                .FirstOrDefaultAsync(food => food.Id == foodId);
+
+            var updatedFood = this.mapper
+                .Map(food, foodFromDb);
+
+            await this.context
+                .SaveChangesAsync();
+
+            var foodToReturn = this.mapper
+                .Map<FoodDto>(updatedFood);
+
+            return foodToReturn;
         }
 
         public async Task<FoodDto> GetFoodAsync(int foodId)
