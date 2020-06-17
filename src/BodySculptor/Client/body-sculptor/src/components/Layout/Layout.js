@@ -7,7 +7,7 @@ const layout = (props) => {
     return (
         <React.Fragment>
             <Container fluid>
-                <Header/>
+                <Header />
                 {props.children}
             </Container>
 

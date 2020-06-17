@@ -1,11 +1,12 @@
 import React from 'react';
-import NavItem from '../NavItem/NavItem';
+import { connect } from 'react-redux';
 
+import NavItem from '../NavItem/NavItem';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import styles from './Header.module.css';
 
-const header = () => {
+const header = (props) => {
     return (
         <Navbar bg="dark" variant="dark" className={styles.header}>
             <Navbar.Brand href="/home">BodySculptor</Navbar.Brand>
@@ -14,12 +15,24 @@ const header = () => {
                 <NavItem name="Exercises" link="/exercises" />
                 <NavItem name="Foods" link="/foods" />
             </Nav>
-            <Nav>
-                <NavItem name="Register" link="/register" />
-                <NavItem name="Login" link="/login" />
-            </Nav>
+            {!props.isAuthenticated
+                ? <Nav>
+                    <NavItem name="Register" link="/register" />
+                    <NavItem name="Login" link="/login" />
+                </Nav>
+                : <Nav>
+                    <NavItem name={`Hello, ${props.username}`} link="/home" />
+                    <NavItem name="Logout" link="/logout" />
+                </Nav>}
         </Navbar>
     );
 };
 
-export default header;
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.auth.isAuth,
+        username: state.auth.username,
+    }
+}
+
+export default connect(mapStateToProps)(header);
