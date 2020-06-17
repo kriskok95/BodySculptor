@@ -17,6 +17,7 @@ export const successRegister = () => {
 }
 
 export const onLogout = () => {
+    localStorage.removeItem('token');
     return {
         type: actionTypes.ON_LOGOUT,
     }
