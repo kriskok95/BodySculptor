@@ -8,7 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+
 import authReducer from './store/reducers/auth';
+import foodsReducer from './store/reducers/foods';
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -16,6 +18,7 @@ const composeEnhancers = process.env.NODE_ENV === 'development'
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  foods: foodsReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(

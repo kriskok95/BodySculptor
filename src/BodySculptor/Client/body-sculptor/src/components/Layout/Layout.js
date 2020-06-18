@@ -10,7 +10,6 @@ const layout = (props) => {
                 <Header />
                 {props.children}
             </Container>
-
         </React.Fragment>
     )
 };

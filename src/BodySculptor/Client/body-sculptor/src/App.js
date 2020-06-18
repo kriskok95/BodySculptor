@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import Layout from "./components/Layout/Layout";
 import Routes from './components/Routes/Routes';
@@ -7,7 +7,9 @@ import "./App.css";
 const app = (props) => {
   return (
     <Layout>
-      <Routes />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Routes />
+      </Suspense>
     </Layout>
   );
 }
