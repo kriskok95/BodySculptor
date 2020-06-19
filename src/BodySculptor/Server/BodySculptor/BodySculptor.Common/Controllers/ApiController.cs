@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.API.Controllers
+﻿namespace BodySculptor.Common.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 

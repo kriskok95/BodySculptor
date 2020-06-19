@@ -1,24 +1,20 @@
-namespace BodySculptor.API
+namespace BodySculptor.Identity
 {
-
+    using BodySculptor.Common;
+    using BodySculptor.Identity.Data;
+    using BodySculptor.Identity.Data.Entities;
+    using BodySculptor.Identity.Services;
+    using BodySculptor.Identity.Services.Interfaces;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
-    using AutoMapper;
-    using BodySculptor.Data.Entities.Entities;
-    using BodySculptor.Data.Seeding;
-    using BodySculptor.Data;
-    using BodySculptor.Services.Mapping.Profiles;
-    using BodySculptor.Services.Interfaces;
-    using BodySculptor.Common;
-    using BodySculptor.Services;
 
     public class Startup
     {
@@ -32,19 +28,19 @@ namespace BodySculptor.API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<BodySculptorDbContext>(options =>
+                .AddDbContext<IdentityDbContext>(options =>
                     options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services
-                .AddIdentity<User, IdentityRole>(options =>
-                {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 6;
-                })
-                    .AddEntityFrameworkStores<BodySculptorDbContext>();
+               .AddIdentity<User, IdentityRole>(options =>
+               {
+                   options.Password.RequireDigit = false;
+                   options.Password.RequireLowercase = false;
+                   options.Password.RequireNonAlphanumeric = false;
+                   options.Password.RequireUppercase = false;
+                   options.Password.RequiredLength = 6;
+               })
+                   .AddEntityFrameworkStores<IdentityDbContext>();
 
             var applicatonSettingsConfiguration = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettings>(applicatonSettingsConfiguration);
@@ -71,54 +67,29 @@ namespace BodySculptor.API
                     };
                 });
 
-            services.AddAutoMapper(
-                typeof(FoodsProfile));
+            services.AddControllers();
 
-            services.AddTransient<IFoodsService, FoodsService>();
-
-            services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ITokenGeneratorService, TokenGeneratorService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<BodySculptorDbContext>();
-
-                if (env.IsDevelopment())
-                {
-                    dbContext.Database.Migrate();
-                }
-
-                new BodySculptorDbContextSeeder()
-                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
-                    .GetAwaiter()
-                    .GetResult();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(options => options
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
-
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

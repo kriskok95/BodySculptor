@@ -1,7 +1,8 @@
 ﻿namespace BodySculptor.API.Controllers
 {
-    using BodySculptor.API.Services.Interfaces;
+    using BodySculptor.Common.Controllers;
     using BodySculptor.Models.Foods;
+    using BodySculptor.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;

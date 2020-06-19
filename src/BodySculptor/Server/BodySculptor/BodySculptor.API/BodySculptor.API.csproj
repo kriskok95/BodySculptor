@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BodySculptor.Common\BodySculptor.Common.csproj" />
     <ProjectReference Include="..\BodySculptor.Data\BodySculptor.Data.csproj" />
     <ProjectReference Include="..\BodySculptor.Models\BodySculptor.Models.csproj" />
     <ProjectReference Include="..\BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj" />

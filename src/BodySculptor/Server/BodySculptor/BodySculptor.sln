@@ -5,15 +5,21 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.API", "BodySculptor.API\BodySculptor.API.csproj", "{DDBBA4DA-4D36-4236-8E9B-8A895D362EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Data", "BodySculptor.Data\BodySculptor.Data.csproj", "{E14B058F-708E-4FE0-8F70-8A7ADEC20BB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Data", "BodySculptor.Data\BodySculptor.Data.csproj", "{E14B058F-708E-4FE0-8F70-8A7ADEC20BB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Data.Entities", "BodySculptor.Data.Entities\BodySculptor.Data.Entities.csproj", "{4E5A564F-7BAF-4F54-8EAE-91DDDCDC0F03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Data.Entities", "BodySculptor.Data.Entities\BodySculptor.Data.Entities.csproj", "{4E5A564F-7BAF-4F54-8EAE-91DDDCDC0F03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Services", "BodySculptor.Services\BodySculptor.Services.csproj", "{F2B30971-A7DF-4568-BD2E-445C5192673C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Services", "BodySculptor.Services\BodySculptor.Services.csproj", "{F2B30971-A7DF-4568-BD2E-445C5192673C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Models", "BodySculptor.Models\BodySculptor.Models.csproj", "{76CF69E3-C910-40C2-AEC2-75F0190BD64E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Models", "BodySculptor.Models\BodySculptor.Models.csproj", "{76CF69E3-C910-40C2-AEC2-75F0190BD64E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Services.Mapping", "BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj", "{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Services.Mapping", "BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj", "{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{64D16D94-4179-430C-9236-5435A85ACF74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Identity", "BodySculptor.Identity\BodySculptor.Identity.csproj", "{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Common", "BodySculptor.Common\BodySculptor.Common.csproj", "{89F4A557-B335-4B7E-8E69-211516F34EF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +51,20 @@ Global
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF} = {64D16D94-4179-430C-9236-5435A85ACF74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E47E1B11-D23E-4D4D-93E6-72C2C35EE804}

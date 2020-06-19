@@ -1,5 +1,6 @@
 ﻿namespace BodySculptor.API.Controllers
 {
+    using BodySculptor.Common.Controllers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

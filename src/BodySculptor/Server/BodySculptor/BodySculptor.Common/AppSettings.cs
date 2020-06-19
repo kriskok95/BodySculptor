@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.API
+﻿namespace BodySculptor.Common
 {
     public class AppSettings
     {
