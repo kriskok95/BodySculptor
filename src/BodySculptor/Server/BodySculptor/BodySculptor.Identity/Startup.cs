@@ -1,21 +1,14 @@
 namespace BodySculptor.Identity
 {
-    using BodySculptor.Common;
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Identity.Data;
-    using BodySculptor.Identity.Data.Entities;
     using BodySculptor.Identity.Infrastructure;
     using BodySculptor.Identity.Services;
     using BodySculptor.Identity.Services.Interfaces;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Text;
 
     public class Startup
     {
@@ -38,21 +31,7 @@ namespace BodySculptor.Identity
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseWebService(env);
         }
     }
 }
