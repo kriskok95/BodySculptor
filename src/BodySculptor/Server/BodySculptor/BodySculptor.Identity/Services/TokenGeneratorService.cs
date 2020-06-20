@@ -2,7 +2,6 @@
 {
     using BodySculptor.Common;
     using BodySculptor.Identity.Data.Entities;
-    using BodySculptor.Identity.Services.Interfaces;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;
@@ -12,9 +11,9 @@
 
     public class TokenGeneratorService : ITokenGeneratorService
     {
-        private readonly AppSettings appSettings;
+        private readonly ApplicationSettings appSettings;
 
-        public TokenGeneratorService(IOptions<AppSettings> appSettings)
+        public TokenGeneratorService(IOptions<ApplicationSettings> appSettings)
             => this.appSettings = appSettings.Value;
 
         public string GenerateToken(User user)

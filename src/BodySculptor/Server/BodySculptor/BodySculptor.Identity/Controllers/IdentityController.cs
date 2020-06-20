@@ -13,12 +13,12 @@
     public class IdentityController : ApiController
     {
         private readonly UserManager<User> userManager;
-        private readonly AppSettings appSettings;
+        private readonly ApplicationSettings appSettings;
         private readonly IIdentityService identityService;
 
         public IdentityController(
             UserManager<User> userManager
-            , IOptions<AppSettings> appSettings
+            , IOptions<ApplicationSettings> appSettings
             , IIdentityService identityService)
         {
             this.userManager = userManager;

@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.Identity.Services.Interfaces
+﻿namespace BodySculptor.Identity.Services
 {
     using BodySculptor.Identity.Data.Entities;
     public interface ITokenGeneratorService

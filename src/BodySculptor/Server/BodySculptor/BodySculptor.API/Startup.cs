@@ -47,9 +47,9 @@ namespace BodySculptor.API
                     .AddEntityFrameworkStores<BodySculptorDbContext>();
 
             var applicatonSettingsConfiguration = Configuration.GetSection("ApplicationSettings");
-            services.Configure<AppSettings>(applicatonSettingsConfiguration);
+            services.Configure<ApplicationSettings>(applicatonSettingsConfiguration);
 
-            var appSettings = applicatonSettingsConfiguration.Get<AppSettings>();
+            var appSettings = applicatonSettingsConfiguration.Get<ApplicationSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services
