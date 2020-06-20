@@ -45,6 +45,14 @@
         [Route(nameof(Login))]
         public async Task<ActionResult<LoginOutputModel>> Login(LoginRequestModel model)
         {
+            var isValidCredentials = await this.identityService
+                .CheckCredentials(model);
+
+            if (!isValidCredentials.Succeeded)
+            {
+                return Unauthorized(isValidCredentials.Errors);
+            }
+
             var result = await this.identityService
                 .Login(model);
 

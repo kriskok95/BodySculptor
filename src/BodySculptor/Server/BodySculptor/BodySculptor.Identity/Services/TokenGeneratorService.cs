@@ -2,6 +2,7 @@
 {
     using BodySculptor.Common;
     using BodySculptor.Identity.Data.Entities;
+    using BodySculptor.Identity.Services.Interfaces;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;

@@ -10,5 +10,7 @@
         Task<Result<User>> Register(RegisterUserRquestModel userInput);
 
         Task<Result<LoginOutputModel>> Login(LoginRequestModel userInput);
+
+        Task<Result> CheckCredentials(LoginRequestModel model);
     }
 }

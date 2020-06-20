@@ -62,5 +62,24 @@
 
             return new LoginOutputModel(token);
         }
+
+        public async Task<Result> CheckCredentials(LoginRequestModel model)
+        {
+            var user = await this.userManager
+                .FindByNameAsync(model.UserName);
+
+            if(user == null)
+            {
+                return Constants.InvalidCredentialsErrorMessage;
+            }
+
+            var isPasswordValid = await userManager.CheckPasswordAsync(user, model.Password);
+
+            if (!isPasswordValid)
+            {
+                return Constants.InvalidCredentialsErrorMessage;
+            }
+            return true;
+        }
     }
 }
