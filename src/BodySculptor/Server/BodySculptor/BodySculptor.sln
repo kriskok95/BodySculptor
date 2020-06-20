@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Models", "Body
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Services.Mapping", "BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj", "{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{64D16D94-4179-430C-9236-5435A85ACF74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Common", "BodySculptor.Common\BodySculptor.Common.csproj", "{89F4A557-B335-4B7E-8E69-211516F34EF0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Identity", "BodySculptor.Identity\BodySculptor.Identity.csproj", "{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Identity", "BodySculptor.Identity\BodySculptor.Identity.csproj", "{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Common", "BodySculptor.Common\BodySculptor.Common.csproj", "{89F4A557-B335-4B7E-8E69-211516F34EF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Nutrition", "BodySculptor.Nutrition\BodySculptor.Nutrition.csproj", "{BF997C3E-3356-4245-AF20-8019F1913CA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,20 +51,21 @@ Global
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4A06848-70CC-44B2-ABE6-F69EEBB8BB61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89F4A557-B335-4B7E-8E69-211516F34EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A76ED130-EE2C-48F3-8E6B-B7351CD67BCF} = {64D16D94-4179-430C-9236-5435A85ACF74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E47E1B11-D23E-4D4D-93E6-72C2C35EE804}
