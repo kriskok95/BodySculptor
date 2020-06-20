@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Nutrition.Controllers
 {
     using BodySculptor.Common.Controllers;
+    using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Models;
     using BodySculptor.Nutrition.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
@@ -35,10 +36,15 @@
                 return NotFound();
             }
 
-            var foodDto = await this.foodsService
+            var result = await this.foodsService
                 .GetFoodAsync(foodId);
 
-            return Ok(foodDto);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(result.Data);
         }
 
         [HttpPost]
@@ -49,7 +55,7 @@
 
             if (!isFoodCategoryExists)
             {
-                return NotFound("Category with the given id doesn't exists");
+                return NotFound(string.Format(FoodCategoriesConstants.UnexistingFoodCategoryId, food.FoodCategoryId));
             }
 
             var isFoodExists = await this.foodsService
@@ -57,15 +63,20 @@
 
             if (isFoodExists)
             {
-                return BadRequest("Food with the given name already exists");
+                return BadRequest(FoodsConstants.ExistingFoodByName);
             }
 
-            var foodToReturn = await this.foodsService
+            var result = await this.foodsService
                 .CreateFoodAsync(food);
 
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
             return CreatedAtRoute("GetFood",
-                new { foodId = foodToReturn.Id },
-                foodToReturn);
+                new { foodId = result.Data.Id },
+                result.Data);
         }
 
         [HttpPut("{foodId}")]
@@ -76,7 +87,7 @@
 
             if (!isFoodExists)
             {
-                return NotFound("Food with the given id doesn't exists");
+                return NotFound(FoodsConstants.UnexistingFoodById);
             }
 
             var isFoodCategoryExists = await this.foodsService
@@ -84,15 +95,15 @@
 
             if (!isFoodCategoryExists)
             {
-                return NotFound("Category with the given id doesn't exists");
+                return NotFound(FoodCategoriesConstants.UnexistingFoodCategoryId);
             }
 
-            var foodToReturn = await this.foodsService
+            var result = await this.foodsService
                 .EditFoodAsync(foodId, food);
 
             return CreatedAtRoute("GetFood",
                 new { foodId },
-                foodToReturn);
+                result.Data);
         }
 
 
@@ -104,7 +115,7 @@
 
             if (!isFoodExists)
             {
-                return NotFound("Food with the given ID doesn't exists.");
+                return NotFound(string.Format(FoodsConstants.UnexistingFoodById, foodId));
             }
 
             await this.foodsService
