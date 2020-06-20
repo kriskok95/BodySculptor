@@ -4,6 +4,7 @@
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Models;
     using BodySculptor.Nutrition.Services.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -48,6 +49,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<FoodDto>> CreateFood(FoodForCreationDto food)
         {
             var isFoodCategoryExists = await this.foodsService
@@ -80,6 +82,7 @@
         }
 
         [HttpPut("{foodId}")]
+        [Authorize]
         public async Task<ActionResult> EditFood(int foodId, FoodForUpdateDto food)
         {
             var isFoodExists = await this.foodsService
@@ -108,6 +111,7 @@
 
 
         [HttpDelete("{FoodId}")]
+        [Authorize]
         public async Task<ActionResult> DeleteFood(int foodId)
         {
             var isFoodExists = await this.foodsService
