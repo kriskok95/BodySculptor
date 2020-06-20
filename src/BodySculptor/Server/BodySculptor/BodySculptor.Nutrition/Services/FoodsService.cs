@@ -5,17 +5,17 @@
     using BodySculptor.Nutrition.Data.Entities;
     using BodySculptor.Nutrition.Models;
     using BodySculptor.Nutrition.Services.Interfaces;
+    using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class FoodsService : IFoodsService
     {
         private readonly NutritionDbContext context;
         private readonly IMapper mapper;
-
+    
         public FoodsService(NutritionDbContext context, IMapper mapper)
         {
             this.context = context;
@@ -24,8 +24,8 @@
 
         public async Task<FoodDto> CreateFoodAsync(FoodForCreationDto food)
         {
-            var foodForDb = mapper
-                .Map<Food>(food);
+            var foodForDb = food
+                .MapTo<Food>();
 
             if (foodForDb == null)
             {
@@ -46,13 +46,13 @@
             await context
                 .SaveChangesAsync();
 
-            var foodDto = mapper
-                .Map<FoodDto>(await context
+            var foodFromDb = await context
                 .Foods
                 .Include(x => x.FoodCategory)
-                .FirstOrDefaultAsync(x => x.Name == food.Name));
+                .FirstOrDefaultAsync(x => x.Name == food.Name);
 
-            return foodDto;
+            return foodFromDb
+                .MapTo<FoodDto>();
         }
 
         public async Task DeleteFood(int foodId)
@@ -90,14 +90,14 @@
                 .Include(x => x.FoodCategory)
                 .FirstOrDefaultAsync(food => food.Id == foodId);
 
-            var updatedFood = mapper
-                .Map(food, foodFromDb);
+            var updatedFood = food
+                .MapTo<FoodForUpdateDto, Food>(foodFromDb);
 
             await context
                 .SaveChangesAsync();
 
-            var foodToReturn = mapper
-                .Map<FoodDto>(updatedFood);
+            var foodToReturn = updatedFood
+                .MapTo<FoodDto>();
 
             return foodToReturn;
         }
@@ -108,14 +108,15 @@
                     .Foods
                     .Include(x => x.FoodCategory)
                     .FirstOrDefaultAsync(food => food.Id == foodId);
+                    
 
             if (foodFromDb == null)
             {
                 throw new ArgumentNullException(nameof(foodId));
             }
 
-            return mapper
-                .Map<FoodDto>(foodFromDb);
+            return foodFromDb
+                .MapTo<FoodDto>();
         }
 
         public async Task<IEnumerable<FoodDto>> GetFoodsAsync()
@@ -123,13 +124,10 @@
             var foodsFromDb = await context
                 .Foods
                 .Include(x => x.FoodCategory)
+                .To<FoodDto>()
                 .ToListAsync();
 
-            var foodsDto = mapper
-                .Map<IEnumerable<FoodDto>>(foodsFromDb)
-                .ToList();
-
-            return foodsDto;
+            return foodsFromDb;
         }
 
         public async Task<bool> IsFoodCategoryExistsAsync(int foodCategoryId)

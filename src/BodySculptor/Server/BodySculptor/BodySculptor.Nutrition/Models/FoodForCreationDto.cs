@@ -1,8 +1,10 @@
 ﻿namespace BodySculptor.Nutrition.Models
 {
+    using BodySculptor.Nutrition.Data.Entities;
+    using BodySculptor.Services.Mapping;
     using System.ComponentModel.DataAnnotations;
 
-    public class FoodForCreationDto
+    public class FoodForCreationDto : IMapTo<Food>
     {
         [Required]
         public string Name { get; set; }

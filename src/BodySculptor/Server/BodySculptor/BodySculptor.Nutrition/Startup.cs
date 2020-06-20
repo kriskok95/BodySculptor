@@ -4,8 +4,10 @@ namespace BodySculptor.Nutrition
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Seeding;
+    using BodySculptor.Nutrition.Models;
     using BodySculptor.Nutrition.Services;
     using BodySculptor.Nutrition.Services.Interfaces;
+    using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -33,6 +35,8 @@ namespace BodySculptor.Nutrition
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutoMapperConfig.RegisterMappings(typeof(FoodDto).GetTypeInfo().Assembly);
+
             app.UseWebService(env);
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
