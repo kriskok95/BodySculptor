@@ -8,16 +8,36 @@
     using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     public class DailyMenusService : IDailyMenusService
     {
         private readonly NutritionDbContext context;
+        private readonly IUsersService usersService;
 
-        public DailyMenusService(NutritionDbContext context)
+        public DailyMenusService(NutritionDbContext context, IUsersService usersService)
         {
             this.context = context;
+            this.usersService = usersService;
+        }
+
+        public async Task<IEnumerable<DailyMenuDto>> GetDailyMenusByUser(string userId)
+        {
+            var isUserExists = await this.usersService
+                .IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                throw new ArgumentException(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            return await this.context
+                .DailyMenus
+                .Where(x => x.UserId == userId)
+                .To<DailyMenuDto>()
+                .ToListAsync();
         }
 
         public async Task<DailyMenuDto> CreateDailyMenu(string userId, CreateDailyMenuInputModel input)

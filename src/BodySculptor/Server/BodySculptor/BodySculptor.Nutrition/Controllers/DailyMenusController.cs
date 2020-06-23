@@ -25,9 +25,9 @@
             this.usersService = usersService;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        public async Task<ActionResult> CreateDailyMenu(CreateDailyMenuInputModel input)
+        public async Task<ActionResult> GetByUser()
         {
             var userId = this.currentUserService.UserId;
 
@@ -35,7 +35,26 @@
 
             if (!isUserExists)
             {
-                return BadRequest(string.Format(UsersConstants.UserAlreadyExists, userId));
+                return BadRequest(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var result = await this.dailyMenusService
+                .GetDailyMenusByUser(userId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Create(CreateDailyMenuInputModel input)
+        {
+            var userId = this.currentUserService.UserId;
+
+            var isUserExists = await this.usersService.IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                return BadRequest(string.Format(UsersConstants.UserNotExists, userId));
             }
 
             var isDailyMenuByDateExists = await this.dailyMenusService
