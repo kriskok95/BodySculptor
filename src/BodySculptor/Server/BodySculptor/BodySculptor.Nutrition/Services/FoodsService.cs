@@ -5,7 +5,7 @@
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Entities;
-    using BodySculptor.Nutrition.Models;
+    using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;

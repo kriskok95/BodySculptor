@@ -7,18 +7,22 @@
     using BodySculptor.Identity.Services.Interfaces;
     using Microsoft.AspNetCore.Identity;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> userManager;
         private readonly ITokenGeneratorService tokenGeneratorService;
+        private readonly HttpClient client;
 
         public IdentityService(UserManager<User> userManager
             , ITokenGeneratorService tokenGeneratorService)
         {
             this.userManager = userManager;
             this.tokenGeneratorService = tokenGeneratorService;
+            this.client = new HttpClient();
         }
 
         public async Task<Result<User>> Register(RegisterUserRquestModel userInput)
@@ -31,6 +35,13 @@
 
             var identityResult = await this.userManager
                 .CreateAsync(user, userInput.Password);
+
+            var isRegisterSuccessful = identityResult.Succeeded;
+
+            if (isRegisterSuccessful)
+            {
+                var response = await this.client.PostAsJsonAsync("https://localhost:5006/api/users/register", new { userId = user.Id });
+            }
 
             var errors = identityResult
                 .Errors

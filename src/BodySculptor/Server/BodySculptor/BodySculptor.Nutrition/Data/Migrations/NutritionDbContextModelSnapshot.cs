@@ -32,7 +32,10 @@ namespace BodySculptor.Nutrition.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Water")
@@ -40,9 +43,47 @@ namespace BodySculptor.Nutrition.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("DailyMenus");
+                });
+
+            modelBuilder.Entity("BodySculptor.Nutrition.Data.Entities.DailyMenuFood", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DailyMenuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Water")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DailyMenuId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("DailyMenuFood");
                 });
 
             modelBuilder.Entity("BodySculptor.Nutrition.Data.Entities.Food", b =>
@@ -61,9 +102,6 @@ namespace BodySculptor.Nutrition.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DailyMenuId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Fats")
                         .HasColumnType("decimal(18,2)");
 
@@ -81,8 +119,6 @@ namespace BodySculptor.Nutrition.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DailyMenuId");
 
                     b.HasIndex("FoodCategoryId");
 
@@ -130,17 +166,26 @@ namespace BodySculptor.Nutrition.Migrations
                 {
                     b.HasOne("BodySculptor.Nutrition.Data.Entities.User", "User")
                         .WithMany("DailyMenus")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("BodySculptor.Nutrition.Data.Entities.DailyMenuFood", b =>
+                {
+                    b.HasOne("BodySculptor.Nutrition.Data.Entities.DailyMenu", "DailyMenu")
+                        .WithMany("DailyMenuFoods")
+                        .HasForeignKey("DailyMenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BodySculptor.Nutrition.Data.Entities.Food", "Food")
+                        .WithMany("DailyMenuFoods")
+                        .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("BodySculptor.Nutrition.Data.Entities.Food", b =>
                 {
-                    b.HasOne("BodySculptor.Nutrition.Data.Entities.DailyMenu", null)
-                        .WithMany("Foods")
-                        .HasForeignKey("DailyMenuId");
-
                     b.HasOne("BodySculptor.Nutrition.Data.Entities.FoodCategory", "FoodCategory")
                         .WithMany("Foods")
                         .HasForeignKey("FoodCategoryId")

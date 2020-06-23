@@ -2,7 +2,7 @@
 {
     using BodySculptor.Common.Controllers;
     using BodySculptor.Nutrition.Constants;
-    using BodySculptor.Nutrition.Models;
+    using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

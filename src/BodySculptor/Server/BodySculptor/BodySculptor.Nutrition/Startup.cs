@@ -4,7 +4,7 @@ namespace BodySculptor.Nutrition
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Seeding;
-    using BodySculptor.Nutrition.Models;
+    using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services;
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
@@ -31,6 +31,8 @@ namespace BodySculptor.Nutrition
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddTransient<IFoodsService, FoodsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IDailyMenusService, DailyMenusService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

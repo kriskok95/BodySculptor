@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.Nutrition.Models
+﻿namespace BodySculptor.Nutrition.Models.Foods
 {
     using AutoMapper;
     using BodySculptor.Nutrition.Data.Entities;

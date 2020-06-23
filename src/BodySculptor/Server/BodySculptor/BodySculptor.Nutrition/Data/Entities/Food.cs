@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Nutrition.Data.Entities
 {
     using BodySculptor.Common.Data.Entities;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Food : BaseModel<int>
@@ -23,5 +24,7 @@
 
         [Required]
         public decimal Fats { get; set; }
+
+        public ICollection<DailyMenuFood> DailyMenuFoods { get; set; }
     }
 }

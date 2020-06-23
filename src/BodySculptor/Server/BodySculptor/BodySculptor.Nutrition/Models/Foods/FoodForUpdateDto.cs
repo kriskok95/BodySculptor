@@ -1,10 +1,11 @@
-﻿namespace BodySculptor.Nutrition.Models
+﻿namespace BodySculptor.Nutrition.Models.Foods
 {
+    using AutoMapper;
     using BodySculptor.Nutrition.Data.Entities;
     using BodySculptor.Services.Mapping;
+    using System;
     using System.ComponentModel.DataAnnotations;
-
-    public class FoodForCreationDto : IMapTo<Food>
+    public class FoodForUpdateDto : IMapTo<Food>, IHaveCustomMappings
     {
         [Required]
         public string Name { get; set; }
@@ -23,5 +24,12 @@
 
         [Required]
         public decimal Fats { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration
+                .CreateMap<FoodForUpdateDto, Food>()
+                .ForMember(Food => Food.ModifiedOn, x => x.MapFrom(modifiedOn => DateTime.UtcNow));
+        }
     }
 }

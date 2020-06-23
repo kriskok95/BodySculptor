@@ -2,7 +2,7 @@
 namespace BodySculptor.Nutrition.Services.Interfaces
 {
     using BodySculptor.Common.Services;
-    using BodySculptor.Nutrition.Models;
+    using BodySculptor.Nutrition.Models.Foods;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

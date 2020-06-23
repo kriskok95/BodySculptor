@@ -38,7 +38,7 @@
                 return BadRequest(result.Errors);
             }
 
-            return Ok();
+            return Ok(result.Data);
         }
 
         [HttpPost]
