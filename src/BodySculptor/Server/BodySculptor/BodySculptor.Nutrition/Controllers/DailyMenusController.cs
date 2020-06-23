@@ -44,6 +44,30 @@
             return Ok(result);
         }
 
+        [HttpGet("{date}")]
+        [Authorize]
+        public async Task<ActionResult> GetByUserAndDate(DateTime date)
+        {
+            var userId = this.currentUserService.UserId;
+
+            var isUserExists = await this.usersService.IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                return BadRequest(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var result = await this.dailyMenusService
+                .GetDailyMenuByUserAndDate(userId, date);
+
+            if(result == null)
+            {
+                return NotFound(string.Format(FoodsConstants.DailyMenuDoesntExistsByDate, userId, date.ToString("MM/dd/yyyy")));
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Create(CreateDailyMenuInputModel input)

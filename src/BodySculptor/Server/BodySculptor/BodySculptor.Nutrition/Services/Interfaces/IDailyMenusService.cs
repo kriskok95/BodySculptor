@@ -12,5 +12,7 @@
         Task<bool> CheckIfDailyMenuExistsByDate(string userId, DateTime date);
 
         Task<IEnumerable<DailyMenuDto>> GetDailyMenusByUser(string userId);
+
+        Task<DailyMenuDto> GetDailyMenuByUserAndDate(string userId, DateTime date);
     }
 }

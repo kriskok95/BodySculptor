@@ -7,9 +7,11 @@
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
 
     public class DailyMenusService : IDailyMenusService
@@ -38,6 +40,27 @@
                 .Where(x => x.UserId == userId)
                 .To<DailyMenuDto>()
                 .ToListAsync();
+        }
+
+        public async Task<DailyMenuDto> GetDailyMenuByUserAndDate(string userId, DateTime date)
+        {
+            var isUserExists = await this.usersService
+                .IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                throw new ArgumentException(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var dailyMenuFromDb = await this.context
+                .DailyMenus
+                .Include(x => x.DailyMenuFoods)
+                    .ThenInclude(x => x.Food)
+                    .ThenInclude(x => x.FoodCategory)
+                .FirstOrDefaultAsync(x => x.Date.Date == date.Date);
+
+            return dailyMenuFromDb
+                .MapTo<DailyMenuDto>();
         }
 
         public async Task<DailyMenuDto> CreateDailyMenu(string userId, CreateDailyMenuInputModel input)
