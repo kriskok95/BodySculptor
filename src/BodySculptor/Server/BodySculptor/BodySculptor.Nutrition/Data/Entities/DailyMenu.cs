@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Nutrition.Data.Entities
 {
     using BodySculptor.Common.Data.Entities;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,8 @@
 
         [Required]
         public decimal Water { get; set; }
+
+        public DateTime Date{ get; set; }
 
         public string UserId { get; set; }
         public User User { get; set; }

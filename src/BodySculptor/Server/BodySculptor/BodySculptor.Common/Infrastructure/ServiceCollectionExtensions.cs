@@ -1,5 +1,7 @@
 ﻿namespace BodySculptor.Common.Infrastructure
 {
+    using BodySculptor.Common.Services;
+    using BodySculptor.Common.Services.Intefraces;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -19,6 +21,9 @@
                 .AddApplicationSettings(configuration)
                 .AddTokenAuthentication(configuration)
                 .AddControllers();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             return services;
         }

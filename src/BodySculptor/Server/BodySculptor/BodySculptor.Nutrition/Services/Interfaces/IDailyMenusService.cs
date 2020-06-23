@@ -1,11 +1,13 @@
 ﻿namespace BodySculptor.Nutrition.Services.Interfaces
 {
-    using BodySculptor.Common.Services;
     using BodySculptor.Nutrition.Models.DailyMenus;
+    using System;
     using System.Threading.Tasks;
 
     public interface IDailyMenusService
     {
-        public Task<Result<DailyMenuDto>> CreateDailyMenu(CreateDailyMenuInputModel input);
+        public Task<DailyMenuDto> CreateDailyMenu(string userId, CreateDailyMenuInputModel input);
+
+        public Task<bool> CheckIfDailyMenuExistsByDate(string userId, DateTime date);
     }
 }

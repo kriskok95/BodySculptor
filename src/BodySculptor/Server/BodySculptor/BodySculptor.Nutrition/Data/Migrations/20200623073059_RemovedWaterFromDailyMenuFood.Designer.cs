@@ -4,14 +4,16 @@ using BodySculptor.Nutrition.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BodySculptor.Nutrition.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200623073059_RemovedWaterFromDailyMenuFood")]
+    partial class RemovedWaterFromDailyMenuFood
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +29,6 @@ namespace BodySculptor.Nutrition.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -72,6 +71,10 @@ namespace BodySculptor.Nutrition.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

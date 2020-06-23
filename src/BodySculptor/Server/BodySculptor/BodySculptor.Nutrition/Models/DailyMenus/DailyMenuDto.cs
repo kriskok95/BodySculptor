@@ -1,6 +1,13 @@
 ﻿namespace BodySculptor.Nutrition.Models.DailyMenus
 {
-    public class DailyMenuDto
+    using BodySculptor.Nutrition.Data.Entities;
+    using BodySculptor.Services.Mapping;
+    using System.Collections.Generic;
+
+    public class DailyMenuDto : IMapFrom<DailyMenu>
     {
+        public IEnumerable<DailyMenuFoodDto> DailyMenuFoods { get; set; }
+
+        public decimal Water { get; set; }
     }
 }
