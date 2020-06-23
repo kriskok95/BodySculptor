@@ -44,7 +44,7 @@
             return Ok(result);
         }
 
-        [HttpGet("{date}")]
+        [HttpGet("{date}", Name = "GetDailyMenuByUserAndDate")]
         [Authorize]
         public async Task<ActionResult> GetByUserAndDate(DateTime date)
         {
@@ -91,7 +91,9 @@
 
             var result = await this.dailyMenusService.CreateDailyMenu(userId, input);
 
-            return Ok(result);
+            return CreatedAtRoute("GetDailyMenuByUserAndDate",
+                new { date = input.Date },
+                result);
         }
     }
 }
