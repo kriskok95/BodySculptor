@@ -20,5 +20,7 @@
         Task<bool> IsDailyMenuExistsByUser(string userId, int dailyMenuId);
 
         Task<DailyMenuDto> EditDailyMenu(string userId, int dailyMenuId, EditDailyMenuInputModel input);
+
+        Task DeleteDailyMenu(string userId, int dailyMenuId);
     }
 }

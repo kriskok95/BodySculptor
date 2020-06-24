@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Runtime.InteropServices.WindowsRuntime;
     using System.Threading.Tasks;
 
     public class DailyMenusController : ApiController
@@ -130,6 +131,34 @@
                 .EditDailyMenu(userId, dailyMenuId, input);
 
             return Ok(result);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("{dailyMenuId}")]
+        public async Task<ActionResult> Delete(int dailyMenuId)
+        {
+            var userId = this.currentUserService.UserId;
+
+            var isUserExists = await this.usersService.IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                return BadRequest(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var isDailyMenuExistsByUser = await this.dailyMenusService
+               .IsDailyMenuExistsByUser(userId, dailyMenuId);
+
+            if (!isDailyMenuExistsByUser)
+            {
+                return BadRequest(string.Format(FoodsConstants.DailyMenuDoesntExistsByUser, userId, dailyMenuId));
+            }
+
+            await this.dailyMenusService
+                .DeleteDailyMenu(userId, dailyMenuId);
+
+            return NoContent();
         }
     }
 }

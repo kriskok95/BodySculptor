@@ -132,6 +132,33 @@
                 .MapTo<DailyMenuDto>();
         }
 
+        public async Task DeleteDailyMenu(string userId, int dailyMenuId)
+        {
+            var isUserExists = await this.usersService
+                .IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                throw new ArgumentException(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var isDailyMenuExistsByUser = await this.IsDailyMenuExistsByUser(userId, dailyMenuId);
+
+            if (!isDailyMenuExistsByUser)
+            {
+                throw new ArgumentException(string.Format(FoodsConstants.DailyMenuDoesntExistsByUser, userId, dailyMenuId));
+            }
+
+            var dailyMenuToRemove = new DailyMenu { Id = dailyMenuId };
+
+            this.context
+                .DailyMenus
+                .Remove(dailyMenuToRemove);
+
+            await this.context
+                .SaveChangesAsync();
+        }
+
         public async Task<bool> CheckIfDailyMenuExistsByDate(string userId, DateTime date)
         {
             return await this.context
