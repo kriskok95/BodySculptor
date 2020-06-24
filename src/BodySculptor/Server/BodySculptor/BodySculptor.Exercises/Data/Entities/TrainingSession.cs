@@ -1,8 +1,8 @@
 ﻿namespace BodySculptor.Exercises.Data.Entities
 {
+    using BodySculptor.Common.Data.Entities;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using BodySculptor.Data.Entities.Entities;
 
     public class TrainingSession : BaseModel<int>
     {

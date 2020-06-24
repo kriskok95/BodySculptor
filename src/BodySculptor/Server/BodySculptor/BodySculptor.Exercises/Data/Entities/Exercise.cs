@@ -1,6 +1,6 @@
 ﻿namespace BodySculptor.Exercises.Data.Entities
 {
-    using BodySculptor.Data.Entities.Entities;
+    using BodySculptor.Common.Data.Entities;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
