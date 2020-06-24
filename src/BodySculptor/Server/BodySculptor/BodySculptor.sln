@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Common", "Body
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Identity", "BodySculptor.Identity\BodySculptor.Identity.csproj", "{5ECFD167-4DD0-4334-98D0-3696CAA7A34F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Nutrition", "BodySculptor.Nutrition\BodySculptor.Nutrition.csproj", "{BF997C3E-3356-4245-AF20-8019F1913CA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Nutrition", "BodySculptor.Nutrition\BodySculptor.Nutrition.csproj", "{BF997C3E-3356-4245-AF20-8019F1913CA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Exercises", "BodySculptor.Exercises\BodySculptor.Exercises.csproj", "{34C12E47-67EE-4E89-8343-6C437DDA770E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF997C3E-3356-4245-AF20-8019F1913CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34C12E47-67EE-4E89-8343-6C437DDA770E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34C12E47-67EE-4E89-8343-6C437DDA770E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34C12E47-67EE-4E89-8343-6C437DDA770E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34C12E47-67EE-4E89-8343-6C437DDA770E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
