@@ -6,6 +6,8 @@
 
     public class DailyMenuDto : IMapFrom<DailyMenu>
     {
+        public int Id { get; set; }
+
         public IEnumerable<DailyMenuFoodDto> DailyMenuFoods { get; set; }
 
         public decimal Water { get; set; }

@@ -95,5 +95,41 @@
                 new { date = input.Date },
                 result);
         }
+
+        [HttpPut]
+        [Authorize]
+        [Route("{dailyMenuId}")]
+        public async Task<ActionResult> Edit(int dailyMenuId, EditDailyMenuInputModel input)
+        {
+            var userId = this.currentUserService.UserId;
+
+            var isUserExists = await this.usersService.IsUserExists(userId);
+
+            if (!isUserExists)
+            {
+                return BadRequest(string.Format(UsersConstants.UserNotExists, userId));
+            }
+
+            var isDailyMenuExists = await this.dailyMenusService
+                .IsDailyMenuExists(dailyMenuId);
+
+            if (!isDailyMenuExists)
+            {
+                return BadRequest(string.Format(FoodsConstants.DailyMenuDoesntExistsById, dailyMenuId));
+            }
+
+            var isDailyMenuExistsByUser = await this.dailyMenusService
+                .IsDailyMenuExistsByUser(userId, dailyMenuId);
+
+            if (!isDailyMenuExistsByUser)
+            {
+                return BadRequest(string.Format(FoodsConstants.DailyMenuDoesntExistsByUser, userId, dailyMenuId));
+            }
+
+            var result = await this.dailyMenusService
+                .EditDailyMenu(userId, dailyMenuId, input);
+
+            return Ok(result);
+        }
     }
 }
