@@ -9,7 +9,7 @@
         [Required]
         public string Name { get; set; }
 
-        public byte[] Image { get; set; }
+        public string ImageUrl { get; set; }
 
         public int MainMuscleGroupId { get; set; }
         public MuscleGroup MainMuscleGroup { get; set; }

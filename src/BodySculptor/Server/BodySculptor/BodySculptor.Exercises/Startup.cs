@@ -4,6 +4,9 @@ namespace BodySculptor.Exercises
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Exercises.Data;
     using BodySculptor.Exercises.Data.Seeding;
+    using BodySculptor.Exercises.Models;
+    using BodySculptor.Exercises.Services;
+    using BodySculptor.Exercises.Services.Interfaces;
     using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -26,11 +29,14 @@ namespace BodySculptor.Exercises
         {
             services.AddWebService<ExercisesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddTransient<IExercisesService, ExercisesService>();
+            services.AddTransient<IMuscleGroupsService, MuscleGroupsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //AutoMapperConfig.RegisterMappings(typeof(FoodDto).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ExerciseDto).GetTypeInfo().Assembly);
 
             app.UseWebService(env);
 
