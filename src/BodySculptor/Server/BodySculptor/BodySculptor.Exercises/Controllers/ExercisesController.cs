@@ -2,6 +2,7 @@
 {
     using BodySculptor.Common.Controllers;
     using BodySculptor.Exercises.Constants;
+    using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
@@ -45,7 +46,7 @@
         }
 
         [HttpGet]
-        [Route("{exerciseId}")]
+        [Route("{exerciseId}", Name = "GetById")]
         public async Task<ActionResult> GetById([FromRoute] int exerciseId)
         {
             var result = await this.exercisesService
@@ -57,6 +58,25 @@
             }
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(ExerciseInputModel input)
+        {
+            var isExerciseExists = await this.exercisesService
+                .IsExerciseExistsByName(input.Name);
+
+            if (isExerciseExists)
+            {
+                return BadRequest(ExercisesConstants.ExistingExercise);
+            }
+
+            var result = await this.exercisesService
+                .CraeteExercise(input);
+
+            return CreatedAtRoute("GetById",
+                new { exerciseId = result.Id },
+                result);
         }
     }
 }

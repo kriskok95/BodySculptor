@@ -3,10 +3,12 @@
 namespace BodySculptor.Exercises.Services
 {
     using BodySculptor.Exercises.Data;
-    using BodySculptor.Exercises.Models;
+    using BodySculptor.Exercises.Data.Entities;
+    using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -52,6 +54,53 @@ namespace BodySculptor.Exercises.Services
             return await this.context
                 .Exercises
                 .AnyAsync(x => x.Id == exerciseId);
+        }
+
+        public async Task<ExerciseDto> CraeteExercise(ExerciseInputModel input)
+        {
+            var exerciseForDb = input
+                .MapTo<Exercise>();
+
+            await this.context
+                .Exercises
+                .AddAsync(exerciseForDb);
+
+            var muscleGroupExercises = new List<MuscleGroupExercises>();
+
+            foreach (var muscleGroupId in input.SecondaryMuscleGroups)
+            {
+                var muscleGroupExercise = new MuscleGroupExercises
+                {
+                    MuscleGroupId = muscleGroupId,
+                    Exercise = exerciseForDb
+                };
+
+                muscleGroupExercises.Add(muscleGroupExercise);
+            }
+
+            await context
+                .MuscleGroupExercises
+                .AddRangeAsync(muscleGroupExercises);
+
+            await this.context
+                .SaveChangesAsync();
+
+            var exerciseFromDb = await this.context
+                .Exercises
+                .Include(x => x.MainMuscleGroup)
+                .Include(x => x.SecondaryMuscleGroupExercises)
+                .ThenInclude(x => x.MuscleGroup)
+                .FirstOrDefaultAsync(x => x.Name == input.Name);
+
+            return exerciseFromDb
+                .MapTo<ExerciseDto>();
+        }
+
+        public async Task<bool> IsExerciseExistsByName(string name)
+        {
+            return await this.context
+                .Exercises
+                .AnyAsync(x => x.Name == name);
         }
     }
 }

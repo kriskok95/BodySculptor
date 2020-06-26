@@ -1,4 +1,4 @@
-﻿namespace BodySculptor.Exercises.Models
+﻿namespace BodySculptor.Exercises.Models.Exercises
 {
     using AutoMapper;
     using BodySculptor.Exercises.Data.Entities;
@@ -8,6 +8,8 @@
 
     public class ExerciseDto : IMapFrom<Exercise>, IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string ImageUrl { get; set; }

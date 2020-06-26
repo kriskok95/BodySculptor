@@ -4,7 +4,7 @@ namespace BodySculptor.Exercises
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Exercises.Data;
     using BodySculptor.Exercises.Data.Seeding;
-    using BodySculptor.Exercises.Models;
+    using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services;
     using BodySculptor.Exercises.Services.Interfaces;
     using BodySculptor.Services.Mapping;
