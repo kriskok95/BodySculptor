@@ -5,6 +5,7 @@
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Threading.Tasks;
 
     public class ExercisesController : ApiController
@@ -72,11 +73,29 @@
             }
 
             var result = await this.exercisesService
-                .CraeteExercise(input);
+                .CraeteExerciseAsync(input);
 
             return CreatedAtRoute("GetById",
                 new { exerciseId = result.Id },
                 result);
+        }
+
+        [HttpPut]
+        [Route("{exerciseId}")]
+        public async Task<ActionResult> Edit(int exerciseId, ExerciseEditModel input)
+        {
+            var isExerciseExists = await this.exercisesService
+                .IsExistsByIdAsync(exerciseId);
+
+            if (!isExerciseExists)
+            {
+                return BadRequest(string.Format(ExercisesConstants.UnexistingExercise, exerciseId));
+            }
+
+            var result = await this.exercisesService
+                .EditExerciseAsync(exerciseId, input);
+
+            return Ok(result);
         }
     }
 }

@@ -2,11 +2,13 @@
 
 namespace BodySculptor.Exercises.Services
 {
+    using BodySculptor.Exercises.Constants;
     using BodySculptor.Exercises.Data;
     using BodySculptor.Exercises.Data.Entities;
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -56,7 +58,7 @@ namespace BodySculptor.Exercises.Services
                 .AnyAsync(x => x.Id == exerciseId);
         }
 
-        public async Task<ExerciseDto> CraeteExercise(ExerciseInputModel input)
+        public async Task<ExerciseDto> CraeteExerciseAsync(ExerciseInputModel input)
         {
             var exerciseForDb = input
                 .MapTo<Exercise>();
@@ -93,6 +95,36 @@ namespace BodySculptor.Exercises.Services
                 .FirstOrDefaultAsync(x => x.Name == input.Name);
 
             return exerciseFromDb
+                .MapTo<ExerciseDto>();
+        }
+
+        public async Task<ExerciseDto> EditExerciseAsync(int exerciseId, ExerciseEditModel input)
+        {
+            var exerciseFromDb = await this.context
+                .Exercises
+                .Include(x => x.MainMuscleGroup)
+                .Include(x => x.SecondaryMuscleGroupExercises)
+                .FirstOrDefaultAsync(x => x.Id == exerciseId);
+
+            if(exerciseFromDb == null)
+            {
+                throw new ArgumentNullException(string.Format(ExercisesConstants.UnexistingExercise, exerciseId));
+            }
+
+            var updatedExercise = input
+                .MapTo<ExerciseEditModel, Exercise>(exerciseFromDb);
+
+            await this.context
+                .SaveChangesAsync();
+
+            var exerciseToReturn = await this.context
+                .Exercises
+                .Include(x => x.MainMuscleGroup)
+                .Include(x => x.SecondaryMuscleGroupExercises)
+                .ThenInclude(x => x.MuscleGroup)
+                .FirstOrDefaultAsync(x => x.Name == input.Name);
+
+            return exerciseToReturn
                 .MapTo<ExerciseDto>();
         }
 

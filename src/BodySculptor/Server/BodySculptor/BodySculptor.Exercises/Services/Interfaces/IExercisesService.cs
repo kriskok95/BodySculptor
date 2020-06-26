@@ -14,8 +14,10 @@
 
         Task<ExerciseDto> GetExerciseByIdAsync(int exerciseId);
 
-        Task<ExerciseDto> CraeteExercise(ExerciseInputModel input);
+        Task<ExerciseDto> CraeteExerciseAsync(ExerciseInputModel input);
 
         Task<bool> IsExerciseExistsByName(string name);
+
+        Task<ExerciseDto> EditExerciseAsync(int exerciseId, ExerciseEditModel input);
     }
 }
