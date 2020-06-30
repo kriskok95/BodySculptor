@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Exercises.Data
 {
     using BodySculptor.Exercises.Data.Entities;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     public class ExercisesDbContext : DbContext
@@ -50,7 +51,7 @@
                 .HasOne(x => x.Exercise)
                 .WithMany(x => x.SecondaryMuscleGroupExercises)
                 .HasForeignKey(x => x.ExerciseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<MuscleGroupExercises>()
                 .HasOne(x => x.MuscleGroup)

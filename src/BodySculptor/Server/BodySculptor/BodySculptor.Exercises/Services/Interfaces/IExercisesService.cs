@@ -19,5 +19,7 @@
         Task<bool> IsExerciseExistsByName(string name);
 
         Task<ExerciseDto> EditExerciseAsync(int exerciseId, ExerciseEditModel input);
+
+        Task DeleteExerciseByIdAsync(int exerciseId);
     }
 }

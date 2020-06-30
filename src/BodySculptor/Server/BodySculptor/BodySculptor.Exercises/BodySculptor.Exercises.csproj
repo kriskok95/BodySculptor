@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20200630190832_CascadeDeleteOnMuscleGroupExercises.cs" />
+    <Compile Remove="Data\Migrations\20200630190832_CascadeDeleteOnMuscleGroupExercises.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200630190926_CascadeDeleteOnMuscleGroupExercises.cs" />
+    <Compile Remove="Data\Migrations\20200630190926_CascadeDeleteOnMuscleGroupExercises.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">

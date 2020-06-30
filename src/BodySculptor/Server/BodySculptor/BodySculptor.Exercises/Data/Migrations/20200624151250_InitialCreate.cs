@@ -96,7 +96,7 @@ namespace BodySculptor.Exercises.Migrations
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MuscleGroupExercises_MuscleGroups_MuscleGroupId",
                         column: x => x.MuscleGroupId,

@@ -128,6 +128,27 @@ namespace BodySculptor.Exercises.Services
                 .MapTo<ExerciseDto>();
         }
 
+        public async Task DeleteExerciseByIdAsync(int exerciseId)
+        {
+            var muscleGroupExercisesToDelete = await context
+                .MuscleGroupExercises
+                .Where(x => x.ExerciseId == exerciseId)
+                .ToListAsync(); ;
+
+            context
+                .MuscleGroupExercises
+                .RemoveRange(muscleGroupExercisesToDelete);
+
+            var exerciseToDelete = new Exercise { Id = exerciseId };
+
+            this.context
+                .Exercises
+                .Remove(exerciseToDelete);
+
+            await this.context
+                .SaveChangesAsync();
+        }
+
         public async Task<bool> IsExerciseExistsByName(string name)
         {
             return await this.context

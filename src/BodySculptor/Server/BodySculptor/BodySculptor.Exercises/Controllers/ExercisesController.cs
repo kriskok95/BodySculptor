@@ -97,5 +97,23 @@
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{exerciseId}")]
+        public async Task<ActionResult> Delete (int exerciseId)
+        {
+            var isExerciseExists = await this.exercisesService
+                .IsExistsByIdAsync(exerciseId);
+
+            if (!isExerciseExists)
+            {
+                return NotFound(string.Format(ExercisesConstants.UnexistingExercise, exerciseId));
+            }
+
+            await this.exercisesService
+                .DeleteExerciseByIdAsync(exerciseId);
+
+            return NoContent();
+        }
     }
 }
