@@ -42,11 +42,6 @@
             builder.Entity<ExerciseExercisePractices>()
                 .HasKey(x => new { x.ExercisePracticeId, x.ExerciseId });
 
-            builder.Entity<ExercisePractice>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.ExercisePractices)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Entity<MuscleGroupExercises>()
                 .HasOne(x => x.Exercise)
                 .WithMany(x => x.SecondaryMuscleGroupExercises)
