@@ -2,13 +2,16 @@ namespace BodySculptor.Identity
 {
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Identity.Data;
+    using BodySculptor.Identity.Data.Seeding;
     using BodySculptor.Identity.Infrastructure;
     using BodySculptor.Identity.Services;
     using BodySculptor.Identity.Services.Interfaces;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Refit;
     using System;
 
@@ -46,6 +49,21 @@ namespace BodySculptor.Identity
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseWebService(env);
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new IdentitySeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
+            }
         }
     }
 }

@@ -41,11 +41,6 @@
 
             var isRegisterSuccessful = identityResult.Succeeded;
 
-            if (isRegisterSuccessful)
-            {
-                //var response = await this.client.PostAsJsonAsync("https://localhost:5006/api/users/register", new { userId = user.Id });
-            }
-
             var errors = identityResult
                 .Errors
                 .Select(e => e.Description);
@@ -72,7 +67,9 @@
                 return Constants.InvalidCredentialsErrorMessage;
             }
 
-            var token = this.tokenGeneratorService.GenerateToken(user);
+            var roles = await this.userManager.GetRolesAsync(user);
+
+            var token = this.tokenGeneratorService.GenerateToken(user, roles);
 
             return new LoginOutputModel(token);
         }
