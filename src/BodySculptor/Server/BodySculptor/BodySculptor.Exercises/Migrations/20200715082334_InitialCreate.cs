@@ -28,6 +28,8 @@ namespace BodySculptor.Exercises.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -44,7 +46,7 @@ namespace BodySculptor.Exercises.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: false),
-                    Image = table.Column<byte[]>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
                     MainMuscleGroupId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -95,14 +97,12 @@ namespace BodySculptor.Exercises.Migrations
                         name: "FK_MuscleGroupExercises_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MuscleGroupExercises_MuscleGroups_MuscleGroupId",
                         column: x => x.MuscleGroupId,
                         principalTable: "MuscleGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -116,19 +116,12 @@ namespace BodySculptor.Exercises.Migrations
                     Reps = table.Column<int>(nullable: false),
                     Sets = table.Column<int>(nullable: false),
                     SecondsDuration = table.Column<int>(nullable: false),
-                    ExerciseId = table.Column<int>(nullable: false),
                     TrainingSessionId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExercisePractice", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExercisePractice_Exercises_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ExercisePractice_TrainingSessions_TrainingSessionId",
                         column: x => x.TrainingSessionId,
@@ -170,11 +163,6 @@ namespace BodySculptor.Exercises.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseExercisePractices_ExerciseId",
                 table: "ExerciseExercisePractices",
-                column: "ExerciseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExercisePractice_ExerciseId",
-                table: "ExercisePractice",
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(

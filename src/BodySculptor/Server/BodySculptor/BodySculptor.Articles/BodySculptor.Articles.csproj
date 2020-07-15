@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200630190405_CascadeDeleteOnMuscleGroupExercises.cs" />
     <Compile Remove="Migrations\20200630190405_CascadeDeleteOnMuscleGroupExercises.Designer.cs" />
+    <Compile Remove="Migrations\20200714125810_ChangeExercisesForeginKey.cs" />
+    <Compile Remove="Migrations\20200714125810_ChangeExercisesForeginKey.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

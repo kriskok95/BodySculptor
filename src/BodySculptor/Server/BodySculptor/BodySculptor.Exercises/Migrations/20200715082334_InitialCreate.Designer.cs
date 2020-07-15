@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodySculptor.Exercises.Migrations
 {
     [DbContext(typeof(ExercisesDbContext))]
-    [Migration("20200630191516_SetDeleteBihaviorNoActionOnMuscleGroupExercises")]
-    partial class SetDeleteBihaviorNoActionOnMuscleGroupExercises
+    [Migration("20200715082334_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,9 +76,6 @@ namespace BodySculptor.Exercises.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -94,12 +91,10 @@ namespace BodySculptor.Exercises.Migrations
                     b.Property<int>("TrainingSessionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
 
                     b.HasIndex("TrainingSessionId");
 
@@ -221,23 +216,15 @@ namespace BodySculptor.Exercises.Migrations
 
             modelBuilder.Entity("BodySculptor.Exercises.Data.Entities.ExercisePractice", b =>
                 {
-                    b.HasOne("BodySculptor.Exercises.Data.Entities.Exercise", "Exercise")
-                        .WithMany()
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BodySculptor.Exercises.Data.Entities.TrainingSession", "TrainingSession")
                         .WithMany("ExercisePractices")
                         .HasForeignKey("TrainingSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BodySculptor.Exercises.Data.Entities.User", "User")
+                    b.HasOne("BodySculptor.Exercises.Data.Entities.User", null)
                         .WithMany("ExercisePractices")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BodySculptor.Exercises.Data.Entities.MuscleGroupExercises", b =>
@@ -251,7 +238,7 @@ namespace BodySculptor.Exercises.Migrations
                     b.HasOne("BodySculptor.Exercises.Data.Entities.MuscleGroup", "MuscleGroup")
                         .WithMany("SecondaryMuscleGroupExercises")
                         .HasForeignKey("MuscleGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

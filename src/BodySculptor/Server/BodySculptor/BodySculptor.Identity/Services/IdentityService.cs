@@ -15,13 +15,16 @@
     {
         private readonly UserManager<User> userManager;
         private readonly ITokenGeneratorService tokenGeneratorService;
+        private readonly IExercisesRegisterService exercisesRegisterService;
         private readonly HttpClient client;
 
         public IdentityService(UserManager<User> userManager
-            , ITokenGeneratorService tokenGeneratorService)
+            , ITokenGeneratorService tokenGeneratorService
+            , IExercisesRegisterService exercisesRegisterService)
         {
             this.userManager = userManager;
             this.tokenGeneratorService = tokenGeneratorService;
+            this.exercisesRegisterService = exercisesRegisterService;
             this.client = new HttpClient();
         }
 
@@ -40,7 +43,7 @@
 
             if (isRegisterSuccessful)
             {
-                var response = await this.client.PostAsJsonAsync("https://localhost:5006/api/users/register", new { userId = user.Id });
+                //var response = await this.client.PostAsJsonAsync("https://localhost:5006/api/users/register", new { userId = user.Id });
             }
 
             var errors = identityResult

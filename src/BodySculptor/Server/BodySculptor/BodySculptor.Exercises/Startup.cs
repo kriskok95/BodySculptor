@@ -33,6 +33,7 @@ namespace BodySculptor.Exercises
             services.AddTransient<IExercisesService, ExercisesService>();
             services.AddTransient<IMuscleGroupsService, MuscleGroupsService>();
             services.AddTransient<ITrainingSessionsService, TrainingSessionsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

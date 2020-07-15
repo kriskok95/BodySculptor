@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Identity", "Bo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Nutrition", "BodySculptor.Nutrition\BodySculptor.Nutrition.csproj", "{BF997C3E-3356-4245-AF20-8019F1913CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Exercises", "BodySculptor.Exercises\BodySculptor.Exercises.csproj", "{34C12E47-67EE-4E89-8343-6C437DDA770E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Exercises", "BodySculptor.Exercises\BodySculptor.Exercises.csproj", "{34C12E47-67EE-4E89-8343-6C437DDA770E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodySculptor.Articles", "BodySculptor.Articles\BodySculptor.Articles.csproj", "{1F802D47-B4C3-425D-857E-81F55DCF8B2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodySculptor.Articles", "BodySculptor.Articles\BodySculptor.Articles.csproj", "{1F802D47-B4C3-425D-857E-81F55DCF8B2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

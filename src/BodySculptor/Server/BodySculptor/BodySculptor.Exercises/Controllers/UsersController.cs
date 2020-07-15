@@ -1,6 +1,9 @@
 ﻿namespace BodySculptor.Exercises.Controllers
 {
     using BodySculptor.Common.Controllers;
+    using BodySculptor.Exercises.Constants;
+    using BodySculptor.Exercises.Models.Users;
+    using BodySculptor.Exercises.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 

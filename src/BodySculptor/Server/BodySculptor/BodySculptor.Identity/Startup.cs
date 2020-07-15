@@ -9,6 +9,8 @@ namespace BodySculptor.Identity
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Refit;
+    using System;
 
     public class Startup
     {
@@ -21,12 +23,24 @@ namespace BodySculptor.Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceEndpoints = this.Configuration
+                .GetSection(nameof(ServiceEndpoints))
+                .Get<ServiceEndpoints>(config => config.BindNonPublicProperties = true);
+
             services
                 .AddWebService<IdentityDbContext>(this.Configuration)
                 .AddUserStorage();
 
             services.AddTransient<IIdentityService, IdentityService>()
                     .AddTransient<ITokenGeneratorService, TokenGeneratorService>();
+
+            services
+               .AddRefitClient<INutritionRegisterService>()
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Nutrition));
+
+            services
+               .AddRefitClient<IExercisesRegisterService>()
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Exercises));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
