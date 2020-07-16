@@ -1,11 +1,16 @@
 namespace BodySculptor.Administration
 {
+    using BodySculptor.Administration.Infrastructure;
     using BodySculptor.Administration.Models.Identity;
     using BodySculptor.Administration.Services;
     using BodySculptor.Administration.Services.Interfaces;
+    using BodySculptor.Common.Infrastructure;
+    using BodySculptor.Common.Services;
+    using BodySculptor.Common.Services.Intefraces;
     using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -28,11 +33,19 @@ namespace BodySculptor.Administration
                 .GetSection(nameof(ServiceEndpoints))
                 .Get<ServiceEndpoints>(config => config.BindNonPublicProperties = true);
 
-            services.AddControllersWithViews();
+            services.AddTokenAuthentication(this.Configuration)
+                    .AddScoped<ICurrentTokenService, CurrentTokenService>()
+                    .AddTransient<JwtCookieAuthenticationMiddleware>()
+                    .AddControllersWithViews(options =>
+                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
             services
                .AddRefitClient<IIdentityService>()
-               .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Identity));
+               .WithConfiguration(serviceEndpoints.Identity);
+
+            services
+                .AddRefitClient<INutritionService>()
+                .WithConfiguration(serviceEndpoints.Nutrition);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,26 +57,24 @@ namespace BodySculptor.Administration
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app
+                    .UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app
+                    .UseExceptionHandler("/Home/Error")
+                    .UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app
+                .UseHttpsRedirection()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseJwtCookieAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints => endpoints
+                    .MapDefaultControllerRoute());
         }
     }
 }

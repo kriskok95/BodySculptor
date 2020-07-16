@@ -1,6 +1,8 @@
 namespace BodySculptor.Identity
 {
     using BodySculptor.Common.Infrastructure;
+    using BodySculptor.Common.Services;
+    using BodySculptor.Common.Services.Intefraces;
     using BodySculptor.Identity.Data;
     using BodySculptor.Identity.Data.Seeding;
     using BodySculptor.Identity.Infrastructure;
@@ -32,6 +34,8 @@ namespace BodySculptor.Identity
 
             services
                 .AddWebService<IdentityDbContext>(this.Configuration)
+                .AddScoped<ICurrentTokenService, CurrentTokenService>()
+                .AddTransient<JwtHeaderAuthenticationMiddleware>()
                 .AddUserStorage();
 
             services.AddTransient<IIdentityService, IdentityService>()
@@ -44,11 +48,23 @@ namespace BodySculptor.Identity
             services
                .AddRefitClient<IExercisesRegisterService>()
                .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Exercises));
+
+            //TODO: Check why the code below doesn't work
+            //    services
+            //        .AddRefitClient<INutritionRegisterService>()
+            //        .WithConfiguration(serviceEndpoints.Nutrition);
+
+            //    services
+            //        .AddRefitClient<IExercisesRegisterService>()
+            //        .WithConfiguration(serviceEndpoints.Exercises);
+            //
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseWebService(env);
+
+            app.UseJwtHeaderAuthentication();
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

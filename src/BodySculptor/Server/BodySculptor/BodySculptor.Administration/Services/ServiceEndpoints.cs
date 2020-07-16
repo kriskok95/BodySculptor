@@ -3,5 +3,7 @@
     public class ServiceEndpoints
     {
         public string Identity { get; private set; }
+
+        public string Nutrition { get; private set; }
     }
 }

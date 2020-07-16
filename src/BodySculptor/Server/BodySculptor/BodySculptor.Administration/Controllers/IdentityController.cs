@@ -3,6 +3,7 @@
     using BodySculptor.Administration.Models.Identity;
     using BodySculptor.Administration.Services.Interfaces;
     using BodySculptor.Common.Constants;
+    using BodySculptor.Common.Infrastructure;
     using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -41,6 +42,14 @@
                 },
                 success: RedirectToAction(nameof(ExercisesController.Index), "Exercises"),
                 failure: View("../Home/Index", model));
+        }
+
+        [AuthorizeAdministrator]
+        public IActionResult Logout()
+        {
+            this.Response.Cookies.Delete(InfrastructureConstants.AuthenticationCookieName);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
