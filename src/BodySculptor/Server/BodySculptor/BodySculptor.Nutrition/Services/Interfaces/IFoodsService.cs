@@ -23,5 +23,7 @@ namespace BodySculptor.Nutrition.Services.Interfaces
         Task<Result<FoodDto>> EditFoodAsync(int foodId, FoodForUpdateDto food);
 
         Task DeleteFood(int foodId);
+
+        Task<IEnumerable<FoodCategoryDto>> GetFoodCategoriesAsync();
     }
 }

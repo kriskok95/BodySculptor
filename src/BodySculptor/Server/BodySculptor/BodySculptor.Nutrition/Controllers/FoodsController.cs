@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Nutrition.Controllers
 {
     using BodySculptor.Common.Controllers;
+    using BodySculptor.Common.Infrastructure;
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services.Interfaces;
@@ -48,8 +49,18 @@
             return Ok(result.Data);
         }
 
+        [HttpGet]
+        [Route(nameof(GetFoodCategories))]
+        public async Task<ActionResult<FoodCategoryDto>> GetFoodCategories()
+        {
+            var foodCategories = await this.foodsService
+                .GetFoodCategoriesAsync();
+
+            return Ok(foodCategories);
+        }
+
         [HttpPost]
-        [Authorize]
+        [AuthorizeAdministrator]
         public async Task<ActionResult<FoodDto>> CreateFood(FoodForCreationDto food)
         {
             var isFoodCategoryExists = await this.foodsService

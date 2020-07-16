@@ -50,21 +50,20 @@ namespace BodySculptor.Identity
                .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Exercises));
 
             //TODO: Check why the code below doesn't work
-            //    services
-            //        .AddRefitClient<INutritionRegisterService>()
-            //        .WithConfiguration(serviceEndpoints.Nutrition);
+            //services
+            //    .AddRefitClient<INutritionRegisterService>()
+            //    .WithConfiguration(serviceEndpoints.Nutrition);
 
-            //    services
-            //        .AddRefitClient<IExercisesRegisterService>()
-            //        .WithConfiguration(serviceEndpoints.Exercises);
-            //
+            //services
+            //    .AddRefitClient<IExercisesRegisterService>()
+            //    .WithConfiguration(serviceEndpoints.Exercises);
         }
 
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseWebService(env);
 
-            app.UseJwtHeaderAuthentication();
+            //app.UseJwtHeaderAuthentication();
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

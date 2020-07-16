@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FoodDto>
+
+@{
+    ViewData["Title"] = "Foods";
+}
+<a asp-controller="Nutrition" asp-action="Create" class="btn btn-primary mb-2">Create Food</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Proteins</th>
+            <th scope="col">Fats</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>@food.Name</td>
+                <td>@food.FoodCategory</td>
+                <td>@food.Calories</td>
+                <td>@food.Carbs</td>
+                <td>@food.Proteins</td>
+                <td>@food.Fats</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,51 @@
+﻿@model CreateFoodInputModel
+
+@{
+    ViewData["Title"] = "Create Food";
+}
+    <form asp-controller="Nutrition" asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="Name">Food Name</label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FoodCategoryId" class="required">Choose Category</label>
+            <select asp-for="FoodCategoryId" class="form-control">
+                <option selected="true" disabled="disabled">--Select--</option>"
+                @foreach (var foodCategory in (List<FoodCategoryDto>)ViewData["foodCategories"])
+                {
+                    <option value="@foodCategory.Id">@foodCategory.Name</option>
+                }
+            </select>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="Calories">Calories</label>
+                <input asp-for="Calories" type="number" class="form-control">
+                <span asp-validation-for="Calories" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="Carbs">Carbs</label>
+                <input asp-for="Carbs" type="number" class="form-control">
+                <span asp-validation-for="Carbs" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <label asp-for="Proteins">Proteins</label>
+                <input asp-for="Proteins" type="number" class="form-control">
+                <span asp-validation-for="Proteins" class="text-danger"></span>
+            </div>
+            <div class="col form-group">
+                <label asp-for="Fats">Fats</label>
+                <input asp-for="Fats" type="number" class="form-control">
+                <span asp-validation-for="Fats" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

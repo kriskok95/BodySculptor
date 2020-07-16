@@ -1,8 +1,31 @@
-﻿@{
+﻿@model IEnumerable<ExerciseDto>
+
+@{
     ViewData["Title"] = "Exercises";
 }
 
-    <h1>Exercises...</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Main Muscle Group</th>
+            <th scope="col">Seconday Muscle Groups</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exercise in Model)
+        {
+            <tr>
+                <td>@exercise.Name</td>
+                <td>@exercise.MainMuscleGroupName</td>
+                <td>
+                    @string.Join(", ", exercise.SecondaryMuscleGroupNames)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

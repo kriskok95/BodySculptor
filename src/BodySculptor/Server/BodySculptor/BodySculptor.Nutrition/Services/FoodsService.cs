@@ -1,6 +1,6 @@
 ﻿namespace BodySculptor.Nutrition.Services
 {
-    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BodySculptor.Common.Services;
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Data;
@@ -11,7 +11,6 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class FoodsService : IFoodsService
@@ -132,23 +131,31 @@
 
         public async Task<bool> IsFoodCategoryExistsAsync(int foodCategoryId)
         {
-            return await context
+            return await this.context
                 .FoodCategories
                 .AnyAsync(fc => fc.Id == foodCategoryId);
         }
 
         public Task<bool> IsFoodExistsAsync(int foodId)
         {
-            return context
+            return this.context
                 .Foods
                 .AnyAsync(food => food.Id == foodId);
         }
 
         public async Task<bool> IsFoodExistsAsync(string foodName)
         {
-            return await context
+            return await this.context
                 .Foods
                 .AnyAsync(food => food.Name == foodName);
+        }
+
+        public async Task<IEnumerable<FoodCategoryDto>> GetFoodCategoriesAsync()
+        {
+            return await this.context
+                .FoodCategories
+                .To<FoodCategoryDto>()
+                .ToListAsync();
         }
     }
 }

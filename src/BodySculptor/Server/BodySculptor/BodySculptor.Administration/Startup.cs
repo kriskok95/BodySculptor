@@ -46,6 +46,10 @@ namespace BodySculptor.Administration
             services
                 .AddRefitClient<INutritionService>()
                 .WithConfiguration(serviceEndpoints.Nutrition);
+
+            services
+                .AddRefitClient<IExercisesService>()
+                .WithConfiguration(serviceEndpoints.Exercises);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

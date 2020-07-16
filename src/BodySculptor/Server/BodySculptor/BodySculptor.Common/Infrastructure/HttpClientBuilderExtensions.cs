@@ -31,7 +31,7 @@
                         return;
                     }
 
-                    var authorizationHeader = new AuthenticationHeaderValue(InfrastructureConstants.AuthorizationHeaderName, currentToken);
+                    var authorizationHeader = new AuthenticationHeaderValue(InfrastructureConstants.AuthorizationHeaderValuePrefix, currentToken);
                     client.DefaultRequestHeaders.Authorization = authorizationHeader;
                 });
     }
