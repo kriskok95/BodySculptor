@@ -46,7 +46,6 @@
         }
 
         [HttpGet]
-        [Route("{Id}")]
         public async Task<IActionResult> Edit(string id)
         {
             var foodForEditDto = await this.nutritionService
@@ -61,7 +60,6 @@
         }
 
         [HttpPost]
-        [Route("{Id}")]
         public async Task<IActionResult> Edit(UpdateFoodInputModel model)
         {
             string foodId = RouteData.Values["Id"].ToString();
@@ -69,6 +67,14 @@
             var result = await this.nutritionService
                  .EditFood(foodId, model);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.nutritionService
+                .DeleteFood(id);
 
             return RedirectToAction(nameof(Index));
         }

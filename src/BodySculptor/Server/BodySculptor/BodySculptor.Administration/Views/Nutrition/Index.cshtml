@@ -19,15 +19,16 @@
     <tbody>
         @foreach (var food in Model)
         {
-            <tr>
-                <td>@food.Name</td>
-                <td>@food.FoodCategory</td>
-                <td>@food.Calories</td>
-                <td>@food.Carbs</td>
-                <td>@food.Proteins</td>
-                <td>@food.Fats</td>
-                <td><a asp-controller="Nutrition" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-warning mb-2">Edit</a></td>
-            </tr>
+        <tr>
+            <td>@food.Name</td>
+            <td>@food.FoodCategory</td>
+            <td>@food.Calories</td>
+            <td>@food.Carbs</td>
+            <td>@food.Proteins</td>
+            <td>@food.Fats</td>
+            <td><a asp-controller="Nutrition" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-warning mb-2">Edit</a></td>
+            <td><a asp-controller="Nutrition" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger mb-2">Delete</a></td>
+        </tr>
         }
     </tbody>
 </table>

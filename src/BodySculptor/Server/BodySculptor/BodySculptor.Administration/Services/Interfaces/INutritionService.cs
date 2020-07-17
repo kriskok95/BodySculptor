@@ -21,6 +21,9 @@
         [Put("/api/Foods/{foodId}")]
         Task<ApiResponse<FoodDto>> EditFood(string foodId, [Body] UpdateFoodInputModel model);
 
+        [Delete("/api/Foods/{foodId}")]
+        Task DeleteFood(string foodId);
+
         [Get("/api/Foods/GetFoodCategories")]
         Task<ApiResponse<IEnumerable<FoodCategoryDto>>> GetFoodCategories();
     }
