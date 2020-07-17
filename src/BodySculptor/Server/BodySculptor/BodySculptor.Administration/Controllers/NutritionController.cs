@@ -44,5 +44,33 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        [Route("{Id}")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var foodForEditDto = await this.nutritionService
+                .GetFood(id);
+            var foodCategories = await this.nutritionService
+                .GetFoodCategories();
+
+            ViewData["foodDto"] = foodForEditDto.Content;
+            ViewData["foodCategories"] = foodCategories.Content;
+
+            return View();
+        }
+
+        [HttpPost]
+        [Route("{Id}")]
+        public async Task<IActionResult> Edit(UpdateFoodInputModel model)
+        {
+            string foodId = RouteData.Values["Id"].ToString();
+
+            var result = await this.nutritionService
+                 .EditFood(foodId, model);
+
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

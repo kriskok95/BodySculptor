@@ -1,0 +1,57 @@
+﻿@model UpdateFoodInputModel
+
+@{
+    ViewData["Title"] = "Edit Food";
+}
+
+@{FoodDto foodDto = ((FoodDto)ViewData["foodDto"]);}
+@{List<FoodCategoryDto> foodCategories = ((List<FoodCategoryDto>)ViewData["foodCategories"]);}
+
+<form asp-controller="Nutrition" asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name">Food Name</label>
+        <input asp-for="Name" type="text" value="@foodDto.Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FoodCategoryId" class="required">Choose Category</label>
+        <select asp-for="FoodCategoryId" class="form-control">
+            @foreach (var foodCategory in foodCategories)
+            {
+                if (foodCategory.Name == foodDto.FoodCategory)
+                {
+                    <option value="@foodCategory.Id" selected>@foodCategory.Name</option>
+                }
+                else
+                {
+                    <option value="@foodCategory.Id">@foodCategory.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="row">
+        <div class="col form-group">
+            <label asp-for="Calories">Calories</label>
+            <input asp-for="Calories" type="number" value="@foodDto.Calories" class="form-control">
+            <span asp-validation-for="Calories" class="text-danger"></span>
+        </div>
+        <div class="col form-group">
+            <label asp-for="Carbs">Carbs</label>
+            <input asp-for="Carbs" type="number" value="@foodDto.Carbs" class="form-control">
+            <span asp-validation-for="Carbs" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col form-group">
+            <label asp-for="Proteins">Proteins</label>
+            <input asp-for="Proteins" type="number" value="@foodDto.Proteins" class="form-control">
+            <span asp-validation-for="Proteins" class="text-danger"></span>
+        </div>
+        <div class="col form-group">
+            <label asp-for="Fats">Fats</label>
+            <input asp-for="Fats" type="number" value="@foodDto.Fats" class="form-control">
+            <span asp-validation-for="Fats" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>

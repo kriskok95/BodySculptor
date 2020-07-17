@@ -15,7 +15,6 @@ namespace BodySculptor.Administration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Refit;
-    using System;
     using System.Reflection;
 
     public class Startup

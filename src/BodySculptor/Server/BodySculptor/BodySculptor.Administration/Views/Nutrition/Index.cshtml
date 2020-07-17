@@ -13,6 +13,7 @@
             <th scope="col">Carbs</th>
             <th scope="col">Proteins</th>
             <th scope="col">Fats</th>
+            <th scope="col">Edit</th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
                 <td>@food.Carbs</td>
                 <td>@food.Proteins</td>
                 <td>@food.Fats</td>
+                <td><a asp-controller="Nutrition" asp-action="Edit" asp-route-id="@food.Id" class="btn btn-warning mb-2">Edit</a></td>
             </tr>
         }
     </tbody>
