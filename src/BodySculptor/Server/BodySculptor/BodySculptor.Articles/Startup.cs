@@ -2,7 +2,11 @@ namespace BodySculptor.Articles
 {
     using AutoMapper;
     using BodySculptor.Articles.Data;
+    using BodySculptor.Articles.Models.Articles;
+    using BodySculptor.Articles.Services;
+    using BodySculptor.Articles.Services.Interfaces;
     using BodySculptor.Common.Infrastructure;
+    using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -22,10 +26,14 @@ namespace BodySculptor.Articles
         {
             services.AddWebService<ArticlesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutoMapperConfig.RegisterMappings(typeof(ArticleDto).GetTypeInfo().Assembly);
+
             app.UseWebService(env);
         }
     }

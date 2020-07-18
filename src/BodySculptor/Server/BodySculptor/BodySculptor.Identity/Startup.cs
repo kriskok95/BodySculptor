@@ -49,6 +49,10 @@ namespace BodySculptor.Identity
                .AddRefitClient<IExercisesRegisterService>()
                .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Exercises));
 
+            services
+               .AddRefitClient<IArticlesRegisterService>()
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri(serviceEndpoints.Articles));
+
             //TODO: Check why the code below doesn't work
             //services
             //    .AddRefitClient<INutritionRegisterService>()

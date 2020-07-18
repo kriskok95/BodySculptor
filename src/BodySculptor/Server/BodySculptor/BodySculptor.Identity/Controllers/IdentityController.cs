@@ -17,19 +17,22 @@
         private readonly IIdentityService identityService;
         private readonly IExercisesRegisterService exercisesRegisterService;
         private readonly INutritionRegisterService nutritionRegisterService;
+        private readonly IArticlesRegisterService articlesRegisterService;
 
         public IdentityController(
             UserManager<User> userManager
             , IOptions<ApplicationSettings> appSettings
             , IIdentityService identityService
             , IExercisesRegisterService exercisesRegisterService
-            , INutritionRegisterService nutritionRegisterService)
+            , INutritionRegisterService nutritionRegisterService
+            , IArticlesRegisterService articlesRegisterService)
         {
             this.userManager = userManager;
             this.appSettings = appSettings.Value;
             this.identityService = identityService;
             this.exercisesRegisterService = exercisesRegisterService;
             this.nutritionRegisterService = nutritionRegisterService;
+            this.articlesRegisterService = articlesRegisterService;
         }
 
         [HttpPost]
@@ -47,9 +50,11 @@
 
             var nutritionInputModel = new RegisterNutritionUserInputModel { UserId = result.Data.Id };
             var exerciseUserInputModel = new RegisterExerciseUserInputModel { UserId = result.Data.Id };
+            var articleUserInputModel = new RegisterArticleUserInputModel { UserId = result.Data.Id };
 
             await this.nutritionRegisterService.Register(nutritionInputModel);
             await this.exercisesRegisterService.Register(exerciseUserInputModel);
+            await this.articlesRegisterService.Register(articleUserInputModel);
 
             return Ok(result.Data);
         }

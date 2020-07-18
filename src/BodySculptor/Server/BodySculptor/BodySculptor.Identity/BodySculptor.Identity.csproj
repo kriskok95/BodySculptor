@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BodySculptor.Common\BodySculptor.Common.csproj" />
-    <ProjectReference Include="..\BodySculptor.Nutrition\BodySculptor.Nutrition.csproj" />
   </ItemGroup>
 
 

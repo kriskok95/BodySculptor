@@ -1,7 +1,6 @@
 ﻿namespace BodySculptor.Identity.Services.Interfaces
 {
     using BodySculptor.Identity.Models.Identity;
-    using BodySculptor.Nutrition.Models.Users;
     using Refit;
     using System.Threading.Tasks;
 
