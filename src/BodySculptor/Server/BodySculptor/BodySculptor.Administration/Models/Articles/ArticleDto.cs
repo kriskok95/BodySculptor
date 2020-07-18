@@ -1,9 +1,6 @@
-﻿namespace BodySculptor.Articles.Models.Articles
+﻿namespace BodySculptor.Administration.Models.Articles
 {
-    using BodySculptor.Articles.Data.Entities;
-    using BodySculptor.Services.Mapping;
-
-    public class ArticleDto : IMapFrom<Article>
+    public class ArticleDto
     {
         public int Id { get; set; }
 

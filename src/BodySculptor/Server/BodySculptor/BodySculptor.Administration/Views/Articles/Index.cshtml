@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ArticleDto>
+
+@{
+    ViewData["Title"] = "Articles";
+}
+
+<a asp-controller="Articles" asp-action="Create" class="btn btn-primary mb-2">Create Article</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Content</th>
+            <th scope="col">Image URL</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model)
+        {
+        <tr>
+            <td>@article.Title</td>
+            <td>@article.Content</td>
+            <td>@article.ImageUrl</td>
+            <td><a asp-controller="Articles" asp-action="Delete" asp-route-articleId="@article.Id" class="btn btn-danger mb-2">Delete</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

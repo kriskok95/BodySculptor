@@ -49,6 +49,10 @@ namespace BodySculptor.Administration
             services
                 .AddRefitClient<IExercisesService>()
                 .WithConfiguration(serviceEndpoints.Exercises);
+
+            services
+                .AddRefitClient<IArticlesService>()
+                .WithConfiguration(serviceEndpoints.Articles);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

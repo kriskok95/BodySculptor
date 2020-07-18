@@ -1,0 +1,28 @@
+﻿@model CreateArticleInputModel
+
+@{
+    ViewData["Title"] = "Create Article";
+}
+
+    <form asp-controller="Articles" asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" type="text" class="form-control">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageUrl">Image URL</label>
+            <input asp-for="ImageUrl" type="text" class="form-control">
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Content">Content</label>
+            <textarea asp-for="Content" type="text" class="form-control"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

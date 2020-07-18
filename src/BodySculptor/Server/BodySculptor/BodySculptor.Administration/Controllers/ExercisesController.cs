@@ -2,9 +2,11 @@
 {
     using BodySculptor.Administration.Models.Exercises;
     using BodySculptor.Administration.Services.Interfaces;
+    using BodySculptor.Common.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
+    [AuthorizeAdministrator]
     public class ExercisesController : AdministrationController
     {
         private readonly IExercisesService exercisesService;
