@@ -4,6 +4,7 @@
     ViewData["Title"] = "Exercises";
 }
 
+<a asp-controller="Exercises" asp-action="Create" class="btn btn-primary mb-2">Create Exercise</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -15,15 +16,15 @@
     <tbody>
         @foreach (var exercise in Model)
         {
-        <tr>
-            <td>@exercise.Name</td>
-            <td>@exercise.MainMuscleGroupName</td>
-            <td>
-                @string.Join(", ", exercise.SecondaryMuscleGroupNames)
-            </td>
-            <td><a asp-controller="Exercises" asp-action="Edit" asp-route-exerciseId="@exercise.Id" class="btn btn-warning mb-2">Edit</a></td>
-            <td><a asp-controller="Exercises" asp-action="Delete" asp-route-exerciseId="@exercise.Id" class="btn btn-danger mb-2">Delete</a></td>
-        </tr>
+            <tr>
+                <td>@exercise.Name</td>
+                <td>@exercise.MainMuscleGroupName</td>
+                <td>
+                    @string.Join(", ", exercise.SecondaryMuscleGroupNames)
+                </td>
+                <td><a asp-controller="Exercises" asp-action="Edit" asp-route-exerciseId="@exercise.Id" class="btn btn-warning mb-2">Edit</a></td>
+                <td><a asp-controller="Exercises" asp-action="Delete" asp-route-exerciseId="@exercise.Id" class="btn btn-danger mb-2">Delete</a></td>
+            </tr>
         }
     </tbody>
 </table>
