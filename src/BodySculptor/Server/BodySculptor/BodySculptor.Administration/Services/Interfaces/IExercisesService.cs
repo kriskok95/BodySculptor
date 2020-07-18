@@ -23,5 +23,8 @@
         [Headers("Content-Type: application/json")]
         [Post("/api/Exercises")]
         Task<ApiResponse<ExerciseDto>> CreateExercise([Body] CreateExerciseInputModel model);
+
+        [Delete("/api/Exercises/{exerciseId}")]
+        Task DeleteExercise(string exerciseId);
     }
 }

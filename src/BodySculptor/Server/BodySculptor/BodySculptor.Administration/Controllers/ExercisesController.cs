@@ -44,10 +44,10 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string exerciseId)
         {
             var exerciseToEdit = await this.exercisesService
-                .GetExerciseById(id);
+                .GetExerciseById(exerciseId);
 
             var muscleGroups = await this.exercisesService
                 .GetMuscleGroups();
@@ -67,6 +67,15 @@
             var result = await this.exercisesService
                  .EditExercise(exerciseId, model);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string exerciseId)
+        {
+            await this.exercisesService
+                .DeleteExercise(exerciseId);
+    
             return RedirectToAction(nameof(Index));
         }
     }
