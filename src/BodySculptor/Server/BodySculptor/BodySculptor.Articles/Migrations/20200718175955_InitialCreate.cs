@@ -55,8 +55,9 @@ namespace BodySculptor.Articles.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
-                    Positive = table.Column<int>(nullable: false),
-                    Negative = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     ArticleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -68,6 +69,12 @@ namespace BodySculptor.Articles.Migrations
                         principalTable: "Articles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArticleRatings_Users_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,8 +110,12 @@ namespace BodySculptor.Articles.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleRatings_ArticleId",
                 table: "ArticleRatings",
-                column: "ArticleId",
-                unique: true);
+                column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArticleRatings_UserId1",
+                table: "ArticleRatings",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_AuthorId1",

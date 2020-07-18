@@ -20,9 +20,9 @@
             base.OnModelCreating(builder);
 
             builder.Entity<Article>()
-                .HasOne(x => x.ArticleRating)
+                .HasMany(x => x.ArticleRatings)
                 .WithOne(x => x.Article)
-                .HasForeignKey<ArticleRating>(x => x.ArticleId);
+                .HasForeignKey(x => x.ArticleId);
         }
     }
 }

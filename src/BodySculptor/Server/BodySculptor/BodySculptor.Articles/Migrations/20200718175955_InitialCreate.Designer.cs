@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodySculptor.Articles.Migrations
 {
     [DbContext(typeof(ArticlesDbContext))]
-    [Migration("20200624183013_InitialCreate")]
+    [Migration("20200718175955_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,16 +76,20 @@ namespace BodySculptor.Articles.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Negative")
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("Positive")
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId")
-                        .IsUnique();
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ArticleRatings");
                 });
@@ -157,10 +161,14 @@ namespace BodySculptor.Articles.Migrations
             modelBuilder.Entity("BodySculptor.Articles.Data.Entities.ArticleRating", b =>
                 {
                     b.HasOne("BodySculptor.Articles.Data.Entities.Article", "Article")
-                        .WithOne("ArticleRating")
-                        .HasForeignKey("BodySculptor.Articles.Data.Entities.ArticleRating", "ArticleId")
+                        .WithMany("ArticleRatings")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BodySculptor.Articles.Data.Entities.User", "User")
+                        .WithMany("ArticleRatings")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("BodySculptor.Articles.Data.Entities.Comment", b =>

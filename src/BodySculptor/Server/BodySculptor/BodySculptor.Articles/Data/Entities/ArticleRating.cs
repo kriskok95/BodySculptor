@@ -1,12 +1,15 @@
 ﻿namespace BodySculptor.Articles.Data.Entities
 {
     using BodySculptor.Common.Data.Entities;
+    using System.Collections.Generic;
 
     public class ArticleRating : BaseModel<int>
     {
-        public int Positive { get; set; }
+        public int Rating { get; set; }
 
-        public int Negative { get; set; }
+        public User User { get; set; }
+
+        public string UserId { get; set; }
 
         public int ArticleId { get; set; }
 
