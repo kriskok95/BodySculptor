@@ -5,7 +5,6 @@
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Threading.Tasks;
 
     public class ExercisesController : ApiController

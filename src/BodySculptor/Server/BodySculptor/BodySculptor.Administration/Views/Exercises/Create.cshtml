@@ -1,0 +1,47 @@
+﻿@model CreateExerciseInputModel
+
+@{
+    ViewData["Title"] = "Create Exercise";
+}
+
+@{List<MuscleGroupDto> muscleGroups = ((List<MuscleGroupDto>)ViewData["muscleGroups"]);}
+
+<form asp-controller="Exercises" asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name">Exercise Name</label>
+        <input asp-for="Name" type="text" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Image URL</label>
+        <input asp-for="ImageUrl" type="text" class="form-control">
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col form-group">
+            <label asp-for="MainMuscleGroupId" class="required">Choose Category</label>
+            <select asp-for="MainMuscleGroupId" class="form-control">
+                <option selected="true" disabled="disabled">--Select--</option>"
+                @foreach (var muscleGroup in muscleGroups)
+                {
+                    <option value="@muscleGroup.Id">@muscleGroup.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col form-group">
+            <label asp-for="SecondaryMuscleGroups" class="required">Choose Category</label>
+            <select asp-for="SecondaryMuscleGroups" multiple class="form-control">
+                <option selected="true" disabled="disabled">--Select--</option>"
+                @foreach (var muscleGroup in muscleGroups)
+                {
+                    <option value="@muscleGroup.Id">@muscleGroup.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
