@@ -28,6 +28,7 @@ namespace BodySculptor.Articles
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IArticlesService, ArticlesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
