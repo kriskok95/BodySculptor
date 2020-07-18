@@ -15,14 +15,14 @@
     <tbody>
         @foreach (var exercise in Model)
         {
-            <tr>
-                <td>@exercise.Name</td>
-                <td>@exercise.MainMuscleGroupName</td>
-                <td>
-                    @string.Join(", ", exercise.SecondaryMuscleGroupNames)
-                </td>
-
-            </tr>
+        <tr>
+            <td>@exercise.Name</td>
+            <td>@exercise.MainMuscleGroupName</td>
+            <td>
+                @string.Join(", ", exercise.SecondaryMuscleGroupNames)
+            </td>
+            <td><a asp-controller="Exercises" asp-action="Edit" asp-route-id="@exercise.Id" class="btn btn-warning mb-2">Edit</a></td>
+        </tr>
         }
     </tbody>
 </table>

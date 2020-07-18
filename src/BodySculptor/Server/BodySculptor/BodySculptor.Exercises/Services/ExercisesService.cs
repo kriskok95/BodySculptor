@@ -45,6 +45,8 @@ namespace BodySculptor.Exercises.Services
             var exerciseFromDb = await this.context
                 .Exercises
                 .Include(x => x.MainMuscleGroup)
+                .Include(x => x.SecondaryMuscleGroupExercises)
+                .ThenInclude(x => x.MuscleGroup)
                 .FirstOrDefaultAsync(x => x.Id == exerciseId);
 
             return exerciseFromDb
@@ -104,6 +106,7 @@ namespace BodySculptor.Exercises.Services
                 .Exercises
                 .Include(x => x.MainMuscleGroup)
                 .Include(x => x.SecondaryMuscleGroupExercises)
+                .ThenInclude(x => x.MuscleGroup)
                 .FirstOrDefaultAsync(x => x.Id == exerciseId);
 
             if(exerciseFromDb == null)

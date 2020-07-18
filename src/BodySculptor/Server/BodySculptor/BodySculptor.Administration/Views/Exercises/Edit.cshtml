@@ -1,0 +1,63 @@
+﻿@model EditExerciseInputModel
+
+@{
+    ViewData["Title"] = "Edit Exercise";
+}
+
+@{ExerciseDto exerciseDto = ((ExerciseDto)ViewData["exerciseDto"]);}
+@{List<MuscleGroupDto> muscleGroups = ((List<MuscleGroupDto>)ViewData["muscleGroups"]);}
+
+<form asp-controller="Exercises" asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name">Exercise Name</label>
+        <input asp-for="Name" type="text" value="@exerciseDto.Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Image URL</label>
+        <input asp-for="ImageUrl" type="text" value="@exerciseDto.ImageUrl" class="form-control">
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col form-group">
+            <label asp-for="MainMuscleGroupId" class="required">Choose Category</label>
+            <select asp-for="MainMuscleGroupId" class="form-control">
+                <option selected="true" disabled="disabled">--Select--</option>"
+                @foreach (var muscleGroup in muscleGroups)
+                {
+                    if (muscleGroup.Name == exerciseDto.MainMuscleGroupName)
+                    {
+            <option value="@muscleGroup.Id" selected>@muscleGroup.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@muscleGroup.Id">@muscleGroup.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col form-group">
+            <label asp-for="SecondaryMuscleGroups" class="required">Choose Category</label>
+            <select asp-for="SecondaryMuscleGroups" multiple class="form-control">
+                <option selected="true" disabled="disabled">--Select--</option>"
+                @foreach (var muscleGroup in muscleGroups)
+                {
+                    if (exerciseDto.SecondaryMuscleGroupNames.Any(x => x == muscleGroup.Name))
+                    {
+                        <option value="@muscleGroup.Id" selected>@muscleGroup.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@muscleGroup.Id">@muscleGroup.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

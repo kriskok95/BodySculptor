@@ -42,5 +42,32 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var exerciseToEdit = await this.exercisesService
+                .GetExerciseById(id);
+
+            var muscleGroups = await this.exercisesService
+                .GetMuscleGroups();
+
+            ViewData["ExerciseDto"] = exerciseToEdit.Content;
+            ViewData["muscleGroups"] = muscleGroups.Content;
+
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditExerciseInputModel model)
+        {
+            //TODO: Fix secondaryMuscleGroups binding
+            string exerciseId = RouteData.Values["Id"].ToString();
+
+            var result = await this.exercisesService
+                 .EditExercise(exerciseId, model);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
