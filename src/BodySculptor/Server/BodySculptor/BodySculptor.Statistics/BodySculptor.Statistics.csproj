@@ -5,15 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200711152159_UserInheritedBaseMode.cs" />
-    <Compile Remove="Data\Migrations\20200711152159_UserInheritedBaseMode.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MassTransit.AspNetCore" Version="7.0.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,12 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BodySculptor.Common\BodySculptor.Common.csproj" />
-    <ProjectReference Include="..\BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\BodySculptor.Common\BodySculptor.Common.csproj" />
+    <ProjectReference Include="..\BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj" />
   </ItemGroup>
 
 
