@@ -32,22 +32,7 @@ namespace BodySculptor.Exercises
             services.AddWebService<ExercisesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMassTransit(mt =>
-            {
-                mt.AddConsumer<UserCreatedConsumer>();
-
-                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                {
-                    rmq.Host("localhost");
-
-                    rmq.ReceiveEndpoint(nameof(UserCreatedConsumer) + nameof(IExercisesService), endpoint =>
-                    {
-                        endpoint.ConfigureConsumer<UserCreatedConsumer>(bus);
-                    });
-                }));
-            });
-
-            services.AddMassTransitHostedService();
+            services.AddMessaging(typeof(UserCreatedConsumer));
 
             services.AddTransient<IExercisesService, ExercisesService>();
             services.AddTransient<IMuscleGroupsService, MuscleGroupsService>();

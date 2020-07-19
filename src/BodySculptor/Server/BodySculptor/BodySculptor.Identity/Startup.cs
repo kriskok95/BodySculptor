@@ -38,17 +38,8 @@ namespace BodySculptor.Identity
                 .AddWebService<IdentityDbContext>(this.Configuration)
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtHeaderAuthenticationMiddleware>()
-                .AddUserStorage();
-
-            services.AddMassTransit(mt =>
-            {
-                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(cfg =>
-                {
-                    cfg.Host("localhost");
-                }));
-            });
-
-            services.AddMassTransitHostedService();
+                .AddUserStorage()
+                .AddMessaging();
 
             services.AddTransient<IIdentityService, IdentityService>()
                     .AddTransient<ITokenGeneratorService, TokenGeneratorService>();

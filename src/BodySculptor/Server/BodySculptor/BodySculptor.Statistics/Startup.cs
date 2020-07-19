@@ -32,27 +32,7 @@ namespace BodySculptor.Statistics
             services.AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMassTransit(mt =>
-            {
-                mt.AddConsumer<TrainingSessionCreatedConsumer>();
-                mt.AddConsumer<DailyMenuCreatedConsumer>();
-
-                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                {
-                    rmq.Host("localhost");
-
-                    rmq.ReceiveEndpoint(nameof(TrainingSessionCreatedConsumer), endpoint =>
-                    {
-                        endpoint.ConfigureConsumer<TrainingSessionCreatedConsumer>(bus);
-                    });
-                    rmq.ReceiveEndpoint(nameof(DailyMenuCreatedConsumer), endpoint =>
-                    {
-                        endpoint.ConfigureConsumer<DailyMenuCreatedConsumer>(bus);
-                    });
-                }));
-            });
-
-            services.AddMassTransitHostedService();
+            services.AddMessaging(typeof(TrainingSessionCreatedConsumer), typeof(DailyMenuCreatedConsumer));
 
             services.AddTransient<IAdministraionStatisticsService, AdministrationStatisticsService>();
         }

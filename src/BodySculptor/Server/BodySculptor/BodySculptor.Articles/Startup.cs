@@ -29,22 +29,7 @@ namespace BodySculptor.Articles
             services.AddWebService<ArticlesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMassTransit(mt =>
-            {
-                mt.AddConsumer<UserCreatedConsumer>();
-
-                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
-                {
-                    rmq.Host("localhost");
-
-                    rmq.ReceiveEndpoint(nameof(UserCreatedConsumer) + nameof(IArticlesService), endpoint =>
-                    {
-                        endpoint.ConfigureConsumer<UserCreatedConsumer>(bus);
-                    });
-                }));
-            });
-
-            services.AddMassTransitHostedService();
+            services.AddMessaging(typeof(UserCreatedConsumer));
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IArticlesService, ArticlesService>();
