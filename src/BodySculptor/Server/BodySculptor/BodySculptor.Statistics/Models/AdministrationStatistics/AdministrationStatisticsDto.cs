@@ -1,7 +1,12 @@
 ﻿namespace BodySculptor.Statistics.Models.AdministrationStatistics
 {
-    public class AdministrationStatisticsDto
-    {
+    using BodySculptor.Services.Mapping;
+    using BodySculptor.Statistics.Data.Entities;
 
+    public class AdministrationStatisticsDto : IMapFrom<AdministrationStatistics>
+    {
+        public int TotalTrainingSessions { get; set; }
+
+        public int TotalDailyMenus { get; set; }
     }
 }
