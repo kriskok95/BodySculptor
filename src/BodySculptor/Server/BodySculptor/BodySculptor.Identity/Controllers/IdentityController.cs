@@ -48,13 +48,14 @@
                 return BadRequest(result.Errors);
             }
 
-            var nutritionInputModel = new RegisterNutritionUserInputModel { UserId = result.Data.Id };
-            var exerciseUserInputModel = new RegisterExerciseUserInputModel { UserId = result.Data.Id };
-            var articleUserInputModel = new RegisterArticleUserInputModel { UserId = result.Data.Id };
-
-            await this.nutritionRegisterService.Register(nutritionInputModel);
-            await this.exercisesRegisterService.Register(exerciseUserInputModel);
-            await this.articlesRegisterService.Register(articleUserInputModel);
+            //TODO: Replaced with new solution using RabbitMQ
+            //var nutritionInputModel = new RegisterNutritionUserInputModel { UserId = result.Data.Id };
+            //var exerciseUserInputModel = new RegisterExerciseUserInputModel { UserId = result.Data.Id };
+            //var articleUserInputModel = new RegisterArticleUserInputModel { UserId = result.Data.Id };
+            
+            //await this.nutritionRegisterService.Register(nutritionInputModel);
+            //await this.exercisesRegisterService.Register(exerciseUserInputModel);
+            //await this.articlesRegisterService.Register(articleUserInputModel);
 
             return Ok(result.Data);
         }

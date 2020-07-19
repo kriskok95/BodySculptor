@@ -2,11 +2,13 @@ namespace BodySculptor.Articles
 {
     using AutoMapper;
     using BodySculptor.Articles.Data;
+    using BodySculptor.Articles.Messages;
     using BodySculptor.Articles.Models.Articles;
     using BodySculptor.Articles.Services;
     using BodySculptor.Articles.Services.Interfaces;
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -26,6 +28,23 @@ namespace BodySculptor.Articles
         {
             services.AddWebService<ArticlesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddMassTransit(mt =>
+            {
+                mt.AddConsumer<UserCreatedConsumer>();
+
+                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                {
+                    rmq.Host("localhost");
+
+                    rmq.ReceiveEndpoint(nameof(UserCreatedConsumer) + nameof(IArticlesService), endpoint =>
+                    {
+                        endpoint.ConfigureConsumer<UserCreatedConsumer>(bus);
+                    });
+                }));
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IArticlesService, ArticlesService>();

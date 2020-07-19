@@ -8,6 +8,8 @@ namespace BodySculptor.Identity
     using BodySculptor.Identity.Infrastructure;
     using BodySculptor.Identity.Services;
     using BodySculptor.Identity.Services.Interfaces;
+    using GreenPipes;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,16 @@ namespace BodySculptor.Identity
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtHeaderAuthenticationMiddleware>()
                 .AddUserStorage();
+
+            services.AddMassTransit(mt =>
+            {
+                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.Host("localhost");
+                }));
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddTransient<IIdentityService, IdentityService>()
                     .AddTransient<ITokenGeneratorService, TokenGeneratorService>();

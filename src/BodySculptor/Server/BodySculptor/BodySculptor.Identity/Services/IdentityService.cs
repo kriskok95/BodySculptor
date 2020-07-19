@@ -1,31 +1,29 @@
 ﻿namespace BodySculptor.Identity.Services
 {
+    using BodySculptor.Common.Messages.Identity;
     using BodySculptor.Common.Services;
     using BodySculptor.Identity.Constants;
     using BodySculptor.Identity.Data.Entities;
     using BodySculptor.Identity.Models.Identity;
     using BodySculptor.Identity.Services.Interfaces;
+    using MassTransit;
     using Microsoft.AspNetCore.Identity;
     using System.Linq;
-    using System.Net;
-    using System.Net.Http;
     using System.Threading.Tasks;
 
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> userManager;
         private readonly ITokenGeneratorService tokenGeneratorService;
-        private readonly IExercisesRegisterService exercisesRegisterService;
-        private readonly HttpClient client;
+        private readonly IBus publisher;
 
         public IdentityService(UserManager<User> userManager
             , ITokenGeneratorService tokenGeneratorService
-            , IExercisesRegisterService exercisesRegisterService)
+            , IBus publisher)
         {
             this.userManager = userManager;
             this.tokenGeneratorService = tokenGeneratorService;
-            this.exercisesRegisterService = exercisesRegisterService;
-            this.client = new HttpClient();
+            this.publisher = publisher;
         }
 
         public async Task<Result<User>> Register(RegisterUserRquestModel userInput)
@@ -40,6 +38,11 @@
                 .CreateAsync(user, userInput.Password);
 
             var isRegisterSuccessful = identityResult.Succeeded;
+
+            if (isRegisterSuccessful)
+            {
+                await this.publisher.Publish(new UserCreatedMessage { UserId = user.Id });
+            }
 
             var errors = identityResult
                 .Errors

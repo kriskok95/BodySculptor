@@ -4,10 +4,12 @@ namespace BodySculptor.Exercises
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Exercises.Data;
     using BodySculptor.Exercises.Data.Seeding;
+    using BodySculptor.Exercises.Messages;
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services;
     using BodySculptor.Exercises.Services.Interfaces;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -29,6 +31,23 @@ namespace BodySculptor.Exercises
         {
             services.AddWebService<ExercisesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddMassTransit(mt =>
+            {
+                mt.AddConsumer<UserCreatedConsumer>();
+
+                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                {
+                    rmq.Host("localhost");
+
+                    rmq.ReceiveEndpoint(nameof(UserCreatedConsumer) + nameof(IExercisesService), endpoint =>
+                    {
+                        endpoint.ConfigureConsumer<UserCreatedConsumer>(bus);
+                    });
+                }));
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddTransient<IExercisesService, ExercisesService>();
             services.AddTransient<IMuscleGroupsService, MuscleGroupsService>();

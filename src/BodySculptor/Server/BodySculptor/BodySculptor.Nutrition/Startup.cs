@@ -4,16 +4,20 @@ namespace BodySculptor.Nutrition
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Seeding;
+    using BodySculptor.Nutrition.Messages;
     using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services;
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Localization;
+    using System;
     using System.Reflection;
 
     public class Startup
@@ -29,6 +33,23 @@ namespace BodySculptor.Nutrition
         {
             services.AddWebService<NutritionDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddMassTransit(mt =>
+            {
+                mt.AddConsumer<UserCreatedConsumer>();
+
+                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                {
+                    rmq.Host("localhost");
+
+                    rmq.ReceiveEndpoint(nameof(UserCreatedConsumer) + nameof(IFoodsService), endpoint => 
+                    {
+                        endpoint.ConfigureConsumer<UserCreatedConsumer>(bus);
+                    });
+                }));
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddTransient<IFoodsService, FoodsService>();
             services.AddTransient<IUsersService, UsersService>();
