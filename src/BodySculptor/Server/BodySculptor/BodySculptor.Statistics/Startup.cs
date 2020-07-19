@@ -4,11 +4,16 @@ namespace BodySculptor.Statistics
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Services.Mapping;
     using BodySculptor.Statistics.Data;
+    using BodySculptor.Statistics.Data.Seeding;
     using BodySculptor.Statistics.Models.AdministrationStatistics;
+    using BodySculptor.Statistics.Services;
+    using BodySculptor.Statistics.Services.Interfaces;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using System.Reflection;
 
     public class Startup
@@ -24,6 +29,8 @@ namespace BodySculptor.Statistics
         {
             services.AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddTransient<IAdministraionStatisticsService, AdministrationStatisticsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -31,6 +38,21 @@ namespace BodySculptor.Statistics
             AutoMapperConfig.RegisterMappings(typeof(AdministrationStatisticsDto).GetTypeInfo().Assembly);
 
             app.UseWebService(env);
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<StatisticsDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new StatisticsDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
+            }
         }
     }
 }
