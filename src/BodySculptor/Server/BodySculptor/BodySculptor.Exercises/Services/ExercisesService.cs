@@ -10,7 +10,6 @@ namespace BodySculptor.Exercises.Services
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -60,7 +59,7 @@ namespace BodySculptor.Exercises.Services
                 .AnyAsync(x => x.Id == exerciseId);
         }
 
-        public async Task<ExerciseDto> CraeteExerciseAsync(ExerciseInputModel input)
+        public async Task<ExerciseDto> CreateExerciseAsync(ExerciseInputModel input)
         {
             var exerciseForDb = input
                 .MapTo<Exercise>();

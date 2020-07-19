@@ -14,7 +14,7 @@
 
         Task<ExerciseDto> GetExerciseByIdAsync(int exerciseId);
 
-        Task<ExerciseDto> CraeteExerciseAsync(ExerciseInputModel input);
+        Task<ExerciseDto> CreateExerciseAsync(ExerciseInputModel input);
 
         Task<bool> IsExerciseExistsByName(string name);
 

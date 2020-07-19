@@ -6,5 +6,9 @@
     public interface IAdministraionStatisticsService
     {
         Task<AdministrationStatisticsDto> GetAdministrationStatisticsAsync();
+
+        Task<bool> CreateTrainingSession(int trainingSessionId);
+
+        Task<bool> CreateDailyMenu(int dailyMenuId);
     }
 }

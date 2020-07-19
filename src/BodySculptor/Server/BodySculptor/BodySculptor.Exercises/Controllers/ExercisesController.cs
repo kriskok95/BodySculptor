@@ -72,7 +72,7 @@
             }
 
             var result = await this.exercisesService
-                .CraeteExerciseAsync(input);
+                .CreateExerciseAsync(input);
 
             return CreatedAtRoute("GetById",
                 new { exerciseId = result.Id },

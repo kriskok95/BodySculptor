@@ -1,11 +1,13 @@
 ﻿namespace BodySculptor.Nutrition.Services
 {
+    using BodySculptor.Common.Messages.Statistics;
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Entities;
     using BodySculptor.Nutrition.Models.DailyMenus;
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -16,11 +18,15 @@
     {
         private readonly NutritionDbContext context;
         private readonly IUsersService usersService;
+        private readonly IBus publisher;
 
-        public DailyMenusService(NutritionDbContext context, IUsersService usersService)
+        public DailyMenusService(NutritionDbContext context
+            , IUsersService usersService
+            , IBus publisher)
         {
             this.context = context;
             this.usersService = usersService;
+            this.publisher = publisher;
         }
 
         public async Task<IEnumerable<DailyMenuDto>> GetDailyMenusByUser(string userId)
@@ -85,6 +91,8 @@
                     .ThenInclude(x => x.Food)
                     .ThenInclude(x => x.FoodCategory)
                 .FirstOrDefaultAsync(x => x.Id == dailyMenuForDb.Id);
+
+            await this.publisher.Publish(new DailyMenuCreatedMessage { DailyMenuId = dailyMenuFromDb.Id });
 
             var dailyMenuToReturn = dailyMenuFromDb
                 .MapTo<DailyMenuDto>();

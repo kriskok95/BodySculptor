@@ -53,6 +53,10 @@ namespace BodySculptor.Administration
             services
                 .AddRefitClient<IArticlesService>()
                 .WithConfiguration(serviceEndpoints.Articles);
+
+            services
+                .AddRefitClient<IStatisticsService>()
+                .WithConfiguration(serviceEndpoints.Statistics);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     public class IdentityController : AdministrationController
@@ -18,6 +19,12 @@
         public IdentityController(IIdentityService identityService)
         {
             this.identityService = identityService;
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return this.View();
         }
 
         [HttpPost]
@@ -40,7 +47,7 @@
                             MaxAge = TimeSpan.FromDays(1)
                         });
                 },
-                success: RedirectToAction(nameof(ExercisesController.Index), "Exercises"),
+                success: RedirectToAction(nameof(HomeController.Index), "Home"),
                 failure: View("../Home/Index", model));
         }
 

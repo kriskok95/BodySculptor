@@ -9,5 +9,7 @@
         public string Exercises { get; private set; }
 
         public string Articles { get; private set; }
+
+        public string Statistics { get; private set; }
     }
 }

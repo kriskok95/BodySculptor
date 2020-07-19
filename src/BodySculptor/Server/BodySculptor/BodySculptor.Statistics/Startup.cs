@@ -5,9 +5,11 @@ namespace BodySculptor.Statistics
     using BodySculptor.Services.Mapping;
     using BodySculptor.Statistics.Data;
     using BodySculptor.Statistics.Data.Seeding;
+    using BodySculptor.Statistics.Messages;
     using BodySculptor.Statistics.Models.AdministrationStatistics;
     using BodySculptor.Statistics.Services;
     using BodySculptor.Statistics.Services.Interfaces;
+    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -29,6 +31,28 @@ namespace BodySculptor.Statistics
         {
             services.AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddMassTransit(mt =>
+            {
+                mt.AddConsumer<TrainingSessionCreatedConsumer>();
+                mt.AddConsumer<DailyMenuCreatedConsumer>();
+
+                mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                {
+                    rmq.Host("localhost");
+
+                    rmq.ReceiveEndpoint(nameof(TrainingSessionCreatedConsumer), endpoint =>
+                    {
+                        endpoint.ConfigureConsumer<TrainingSessionCreatedConsumer>(bus);
+                    });
+                    rmq.ReceiveEndpoint(nameof(DailyMenuCreatedConsumer), endpoint =>
+                    {
+                        endpoint.ConfigureConsumer<DailyMenuCreatedConsumer>(bus);
+                    });
+                }));
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddTransient<IAdministraionStatisticsService, AdministrationStatisticsService>();
         }
