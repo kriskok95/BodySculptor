@@ -2,6 +2,7 @@
 {
     using BodySculptor.Common.Services;
     using BodySculptor.Common.Services.Intefraces;
+    using GreenPipes;
     using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
@@ -112,6 +113,10 @@
                         {
                             rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
                             {
+                                endpoint.PrefetchCount = 4; // Number of CPUs is default
+                                endpoint.UseMessageRetry(retry => retry.Interval(5, 100));
+
+
                                 endpoint.ConfigureConsumer(bus, consumer);
                             });
                         }
