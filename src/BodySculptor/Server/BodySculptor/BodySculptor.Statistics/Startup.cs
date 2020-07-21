@@ -32,7 +32,7 @@ namespace BodySculptor.Statistics
             services.AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMessaging(typeof(TrainingSessionCreatedConsumer), typeof(DailyMenuCreatedConsumer));
+            services.AddMessaging(this.Configuration, typeof(TrainingSessionCreatedConsumer), typeof(DailyMenuCreatedConsumer));
 
             services.AddTransient<IAdministraionStatisticsService, AdministrationStatisticsService>();
         }

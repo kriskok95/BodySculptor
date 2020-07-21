@@ -1,8 +1,10 @@
 ﻿namespace BodySculptor.Common.Infrastructure
 {
+    using BodySculptor.Common.Messages;
     using BodySculptor.Common.Services;
     using BodySculptor.Common.Services.Intefraces;
     using GreenPipes;
+    using Hangfire;
     using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
@@ -38,7 +40,7 @@
             => services
                 .AddScoped<DbContext, TDbContext>()
                 .AddDbContext<TDbContext>(options => options
-                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                    .UseSqlServer(configuration.GetDefaultConnectionString(),
                     sqlServerOptionsAction: sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(
@@ -91,6 +93,7 @@
 
         public static IServiceCollection AddMessaging(
             this IServiceCollection services,
+            IConfiguration configuration,
             params Type[] consumers)
         {
             services
@@ -123,6 +126,17 @@
                     }));
                 })
                 .AddMassTransitHostedService();
+
+            services
+                .AddHangfire(config => config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(configuration.GetDefaultConnectionString()));
+
+            services.AddHangfireServer();
+
+            services.AddHostedService<MessagesHostedService>();
 
             return services;
         }

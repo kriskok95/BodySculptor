@@ -4,14 +4,16 @@ using BodySculptor.Nutrition.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BodySculptor.Nutrition.Migrations
 {
     [DbContext(typeof(NutritionDbContext))]
-    partial class NutritionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200721202849_MessagesTableAdded")]
+    partial class MessagesTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

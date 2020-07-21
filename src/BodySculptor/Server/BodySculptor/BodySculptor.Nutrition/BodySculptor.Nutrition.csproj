@@ -10,6 +10,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200711152159_UserInheritedBaseMode.cs" />
     <Compile Remove="Data\Migrations\20200711152159_UserInheritedBaseMode.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200721202515_MessagesTableAdded.cs" />
+    <Compile Remove="Data\Migrations\20200721202515_MessagesTableAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

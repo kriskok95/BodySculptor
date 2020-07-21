@@ -49,13 +49,13 @@
             return false;
         }
 
-        public async Task<bool> CreateDailyMenu(int dailyMenuId)
+        public async Task<bool> CreateDailyMenu(string userId)
         {
             var administrationStatisticsFromDb = await this.context
                 .AdministrationStatistics
                 .FirstOrDefaultAsync();
 
-            if (dailyMenuId != 0 && administrationStatisticsFromDb != null)
+            if (!string.IsNullOrWhiteSpace(userId) && administrationStatisticsFromDb != null)
             {
                 administrationStatisticsFromDb.TotalTrainingSessions++;
                 await this.context

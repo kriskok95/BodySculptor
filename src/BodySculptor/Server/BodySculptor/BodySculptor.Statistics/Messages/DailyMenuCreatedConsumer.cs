@@ -18,7 +18,7 @@
         {
             var message = context.Message;
 
-            var result = await this.administraionStatisticsService.CreateDailyMenu(message.DailyMenuId);
+            var result = await this.administraionStatisticsService.CreateDailyMenu(message.UserId);
         }
     }
 }

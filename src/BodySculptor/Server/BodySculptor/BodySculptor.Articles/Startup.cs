@@ -30,7 +30,7 @@ namespace BodySculptor.Articles
             services.AddWebService<ArticlesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMessaging(typeof(UserCreatedConsumer));
+            services.AddMessaging(this.Configuration, typeof(UserCreatedConsumer));
 
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IArticlesService, ArticlesService>();

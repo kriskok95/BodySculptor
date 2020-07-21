@@ -9,6 +9,6 @@
 
         Task<bool> CreateTrainingSession(int trainingSessionId);
 
-        Task<bool> CreateDailyMenu(int dailyMenuId);
+        Task<bool> CreateDailyMenu(string userId);
     }
 }

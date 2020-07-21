@@ -30,7 +30,7 @@ namespace BodySculptor.Exercises
             services.AddWebService<ExercisesDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMessaging(typeof(UserCreatedConsumer));
+            services.AddMessaging(this.Configuration, typeof(UserCreatedConsumer));
 
             services.AddTransient<IExercisesService, ExercisesService>();
             services.AddTransient<IMuscleGroupsService, MuscleGroupsService>();

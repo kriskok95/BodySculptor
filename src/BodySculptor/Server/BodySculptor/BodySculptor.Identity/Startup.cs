@@ -39,7 +39,7 @@ namespace BodySculptor.Identity
                 .AddScoped<ICurrentTokenService, CurrentTokenService>()
                 .AddTransient<JwtHeaderAuthenticationMiddleware>()
                 .AddUserStorage()
-                .AddMessaging();
+                .AddMessaging(this.Configuration);
 
             services.AddTransient<IIdentityService, IdentityService>()
                     .AddTransient<ITokenGeneratorService, TokenGeneratorService>();

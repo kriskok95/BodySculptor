@@ -35,7 +35,7 @@ namespace BodySculptor.Nutrition
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services
-                .AddMessaging(typeof(UserCreatedConsumer));
+                .AddMessaging(this.Configuration, typeof(UserCreatedConsumer));
 
             services.AddTransient<IFoodsService, FoodsService>();
             services.AddTransient<IUsersService, UsersService>();

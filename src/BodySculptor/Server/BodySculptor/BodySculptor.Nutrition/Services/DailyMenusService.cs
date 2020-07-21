@@ -1,6 +1,8 @@
 ﻿namespace BodySculptor.Nutrition.Services
 {
+    using BodySculptor.Common.Data.Entities;
     using BodySculptor.Common.Messages.Statistics;
+    using BodySculptor.Common.Services;
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Data;
     using BodySculptor.Nutrition.Data.Entities;
@@ -14,7 +16,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class DailyMenusService : IDailyMenusService
+    public class DailyMenusService : DataService<DailyMenu>, IDailyMenusService
     {
         private readonly NutritionDbContext context;
         private readonly IUsersService usersService;
@@ -23,6 +25,7 @@
         public DailyMenusService(NutritionDbContext context
             , IUsersService usersService
             , IBus publisher)
+                :base(context)
         {
             this.context = context;
             this.usersService = usersService;
@@ -78,12 +81,15 @@
                 .MapTo<DailyMenu>();
             dailyMenuForDb.UserId = userId;
 
-            await this.context
-                .DailyMenus
-                .AddAsync(dailyMenuForDb);
+            var messageData = new DailyMenuCreatedMessage { UserId = dailyMenuForDb.UserId };
 
-            await this.context
-                .SaveChangesAsync();
+            var message = new Message(messageData);
+
+            await this.Save(dailyMenuForDb, message);
+
+            await this.publisher.Publish(messageData);
+
+            await this.MarkMessageAsPublished(message.Id);
 
             var dailyMenuFromDb = await this.context
                 .DailyMenus
@@ -91,8 +97,6 @@
                     .ThenInclude(x => x.Food)
                     .ThenInclude(x => x.FoodCategory)
                 .FirstOrDefaultAsync(x => x.Id == dailyMenuForDb.Id);
-
-            await this.publisher.Publish(new DailyMenuCreatedMessage { DailyMenuId = dailyMenuFromDb.Id });
 
             var dailyMenuToReturn = dailyMenuFromDb
                 .MapTo<DailyMenuDto>();
