@@ -47,10 +47,10 @@ namespace BodySculptor.Statistics
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<StatisticsDbContext>();
 
-                if (env.IsDevelopment())
-                {
+                //if (env.IsDevelopment())
+                //{
                     dbContext.Database.Migrate();
-                }
+                //}
 
                 new StatisticsDbContextSeeder()
                     .SeedAsync(dbContext, serviceScope.ServiceProvider)

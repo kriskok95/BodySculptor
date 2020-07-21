@@ -1,0 +1,147 @@
+version: "3.8"
+
+services:
+    data:
+        container_name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports: 
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=yourStrongPassword12!@
+        volumes: 
+            - sqldata:/var/opt/mssql 
+        networks: 
+            - bodysculptor-network
+            
+    messages:
+        container_name: rabbitmq
+        image: rabbitmq:3-management
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        hostname: "rabbitmq"
+        environment:
+            - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
+            - RABBITMQ_DEFAULT_USER=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
+        networks: 
+            - bodysculptor-network
+
+    identity:
+        container_name: identity
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Identity/Dockerfile
+        ports: 
+            - "5003:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorIdentityDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+    nutrition:
+        container_name: nutrition
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Nutrition/Dockerfile
+        ports: 
+            - "5006:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporNutritionDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/nutrition/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+    exercises:
+        container_name: exercises
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Exercises/Dockerfile
+        ports: 
+            - "5008:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporExercisesDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/exercises/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+    statistics:
+        container_name: statistics
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Statistics/Dockerfile
+        ports: 
+            - "5014:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorStatisticsDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+    articles:
+        container_name: articles
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Articles/Dockerfile
+        ports: 
+            - "5010:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporArticlesDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/articles/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+    administration:
+        container_name: administration
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Administration/Dockerfile
+        ports: 
+            - "5012:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
+            
+networks:
+    bodysculptor-network:
+
+volumes:
+    sqldata:

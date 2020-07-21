@@ -34,18 +34,27 @@
             return await this.Handle(
                 async () =>
                 {
-                    var result = await this.identityService
-                        .Login(model.MapTo<UserInputModel>());
+                    try
+                    {
+                        var loginModel = model.MapTo<UserInputModel>();
 
-                    this.Response.Cookies.Append(
+                        var result = await this.identityService
+                        .Login(loginModel);
+                        this.Response.Cookies.Append(
                         InfrastructureConstants.AuthenticationCookieName,
-                        result.Token,
+                        result.Content.Token,
                         new CookieOptions
                         {
                             HttpOnly = true,
-                            Secure = true,
+                            Secure = false,
                             MaxAge = TimeSpan.FromDays(1)
                         });
+                    }
+                    catch (Exception ex)
+                    {
+                        ;
+                        throw;
+                    }
                 },
                 success: RedirectToAction(nameof(HomeController.Index), "Home"),
                 failure: View("../Home/Index", model));

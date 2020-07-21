@@ -52,10 +52,10 @@ namespace BodySculptor.Nutrition
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<NutritionDbContext>();
 
-                if (env.IsDevelopment())
-                {
+                //if (env.IsDevelopment())
+                //{
                     dbContext.Database.Migrate();
-                }
+                //}
 
                 new NutritionDbContextSeeder()
                     .SeedAsync(dbContext, serviceScope.ServiceProvider)

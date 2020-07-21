@@ -8,11 +8,12 @@ namespace BodySculptor.Articles
     using BodySculptor.Articles.Services.Interfaces;
     using BodySculptor.Common.Infrastructure;
     using BodySculptor.Services.Mapping;
-    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using System.Reflection;
 
     public class Startup
@@ -40,6 +41,16 @@ namespace BodySculptor.Articles
             AutoMapperConfig.RegisterMappings(typeof(ArticleDto).GetTypeInfo().Assembly);
 
             app.UseWebService(env);
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ArticlesDbContext>();
+
+                //if (env.IsDevelopment())
+                //{
+                    dbContext.Database.Migrate();
+                //}
+            }
         }
     }
 }

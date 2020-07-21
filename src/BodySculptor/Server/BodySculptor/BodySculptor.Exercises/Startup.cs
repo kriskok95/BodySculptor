@@ -9,13 +9,11 @@ namespace BodySculptor.Exercises
     using BodySculptor.Exercises.Services;
     using BodySculptor.Exercises.Services.Interfaces;
     using BodySculptor.Services.Mapping;
-    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using System.Reflection;
 
     public class Startup
@@ -50,10 +48,10 @@ namespace BodySculptor.Exercises
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ExercisesDbContext>();
 
-                if (env.IsDevelopment())
-                {
+                //if (env.IsDevelopment())
+                //{
                     dbContext.Database.Migrate();
-                }
+                //}
 
                 new ExercisesDbContextSeeder()
                     .SeedAsync(dbContext, serviceScope.ServiceProvider)

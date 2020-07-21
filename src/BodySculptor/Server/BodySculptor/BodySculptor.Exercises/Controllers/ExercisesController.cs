@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Exercises.Controllers
 {
     using BodySculptor.Common.Controllers;
+    using BodySculptor.Common.Infrastructure;
     using BodySculptor.Exercises.Constants;
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Exercises.Services.Interfaces;
@@ -61,6 +62,7 @@
         }
 
         [HttpPost]
+        [AuthorizeAdministrator]
         public async Task<ActionResult> Create(ExerciseInputModel input)
         {
             var isExerciseExists = await this.exercisesService
@@ -81,6 +83,7 @@
 
         [HttpPut]
         [Route("{exerciseId}")]
+        [AuthorizeAdministrator]
         public async Task<ActionResult> Edit(int exerciseId, ExerciseEditModel input)
         {
             var isExerciseExists = await this.exercisesService

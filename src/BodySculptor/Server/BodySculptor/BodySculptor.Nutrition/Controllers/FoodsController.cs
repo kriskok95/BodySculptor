@@ -60,7 +60,6 @@
         }
 
         [HttpPost]
-        [AuthorizeAdministrator]
         public async Task<ActionResult<FoodDto>> CreateFood(FoodForCreationDto food)
         {
             var isFoodCategoryExists = await this.foodsService

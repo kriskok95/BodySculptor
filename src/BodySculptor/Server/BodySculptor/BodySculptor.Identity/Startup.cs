@@ -76,10 +76,10 @@ namespace BodySculptor.Identity
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<IdentityDbContext>();
 
-                if (env.IsDevelopment())
-                {
+                //if (env.IsDevelopment())
+                //{
                     dbContext.Database.Migrate();
-                }
+                //}
 
                 new IdentitySeeder()
                     .SeedAsync(dbContext, serviceScope.ServiceProvider)

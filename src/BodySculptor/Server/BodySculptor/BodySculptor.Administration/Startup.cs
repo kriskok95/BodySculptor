@@ -79,7 +79,7 @@ namespace BodySculptor.Administration
             }
 
             app
-                .UseHttpsRedirection()
+                //.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
                 .UseJwtCookieAuthentication()
