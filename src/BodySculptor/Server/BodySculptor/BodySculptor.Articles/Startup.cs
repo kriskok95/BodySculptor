@@ -2,6 +2,7 @@ namespace BodySculptor.Articles
 {
     using AutoMapper;
     using BodySculptor.Articles.Data;
+    using BodySculptor.Articles.Data.Seeding;
     using BodySculptor.Articles.Messages;
     using BodySculptor.Articles.Models.Articles;
     using BodySculptor.Articles.Services;
@@ -46,10 +47,12 @@ namespace BodySculptor.Articles
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ArticlesDbContext>();
 
-                //if (env.IsDevelopment())
-                //{
-                    dbContext.Database.Migrate();
-                //}
+                dbContext.Database.Migrate();
+
+                new ArticlesDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
             }
         }
     }
