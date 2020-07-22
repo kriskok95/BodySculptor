@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200622082734_AddedDailyMenuFood.cs" />
     <Compile Remove="Data\Migrations\20200622082734_AddedDailyMenuFood.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200722153226_MessageTableAdded.cs" />
+    <Compile Remove="Data\Migrations\20200722153226_MessageTableAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

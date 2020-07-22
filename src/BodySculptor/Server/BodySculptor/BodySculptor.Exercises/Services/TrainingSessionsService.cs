@@ -36,7 +36,7 @@
 
             await this.Save(trainingSessionForDb, message);
 
-            await this.publisher.Publish(message);
+            await this.publisher.Publish(messageData);
 
             await this.MarkMessageAsPublished(message.Id);
 
