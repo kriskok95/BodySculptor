@@ -1,9 +1,11 @@
 ﻿namespace BodySculptor.Exercises.Data
 {
+    using BodySculptor.Common.Data;
     using BodySculptor.Exercises.Data.Entities;
     using Microsoft.EntityFrameworkCore;
+    using System.Reflection;
 
-    public class ExercisesDbContext : DbContext
+    public class ExercisesDbContext : MessageDbContext
     {
         public ExercisesDbContext(DbContextOptions<ExercisesDbContext> options)
             : base(options)
@@ -17,44 +19,6 @@
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<MuscleGroupExercises> MuscleGroupExercises { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder.Entity<Exercise>()
-                .HasOne(x => x.MainMuscleGroup)
-                .WithMany(x => x.Exercises)
-                .HasForeignKey(x => x.MainMuscleGroupId);
-
-            builder.Entity<ExerciseExercisePractices>()
-                .HasOne(x => x.Exercise)
-                .WithMany(x => x.ExerciseExercisePractices)
-                .HasForeignKey(x => x.ExerciseId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ExerciseExercisePractices>()
-                .HasOne(x => x.ExercisePractice)
-                .WithMany(x => x.ExerciseExercisePractices)
-                .HasForeignKey(x => x.ExercisePracticeId);
-
-
-            builder.Entity<ExerciseExercisePractices>()
-                .HasKey(x => new { x.ExercisePracticeId, x.ExerciseId });
-
-            builder.Entity<MuscleGroupExercises>()
-                .HasOne(x => x.Exercise)
-                .WithMany(x => x.SecondaryMuscleGroupExercises)
-                .HasForeignKey(x => x.ExerciseId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<MuscleGroupExercises>()
-                .HasOne(x => x.MuscleGroup)
-                .WithMany(x => x.SecondaryMuscleGroupExercises)
-                .HasForeignKey(x => x.MuscleGroupId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<MuscleGroupExercises>()
-                .HasKey(x => new { x.ExerciseId, x.MuscleGroupId });
-        }
+        protected override Assembly ConfigurationsAssembly => Assembly.GetExecutingAssembly();
     }
 }

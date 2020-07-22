@@ -39,7 +39,7 @@
                 .AdministrationStatistics
                 .FirstOrDefaultAsync();
 
-            if(trainingSessionId != 0 && administrationStatisticsFromDb != null)
+            if(administrationStatisticsFromDb != null)
             {
                 administrationStatisticsFromDb.TotalTrainingSessions++;
                 await this.context
@@ -57,7 +57,7 @@
 
             if (!string.IsNullOrWhiteSpace(userId) && administrationStatisticsFromDb != null)
             {
-                administrationStatisticsFromDb.TotalTrainingSessions++;
+                administrationStatisticsFromDb.TotalDailyMenus++;
                 await this.context
                     .SaveChangesAsync();
                 return true;

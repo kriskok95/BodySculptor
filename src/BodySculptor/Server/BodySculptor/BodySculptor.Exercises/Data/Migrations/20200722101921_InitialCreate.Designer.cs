@@ -4,14 +4,16 @@ using BodySculptor.Exercises.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BodySculptor.Exercises.Migrations
 {
     [DbContext(typeof(ExercisesDbContext))]
-    partial class ExercisesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200722101921_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,12 +158,16 @@ namespace BodySculptor.Exercises.Migrations
                     b.Property<int>("TotalCaloriesBurned")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TrainingSessions");
                 });
@@ -244,9 +250,7 @@ namespace BodySculptor.Exercises.Migrations
                 {
                     b.HasOne("BodySculptor.Exercises.Data.Entities.User", "User")
                         .WithMany("TrainingSessions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }

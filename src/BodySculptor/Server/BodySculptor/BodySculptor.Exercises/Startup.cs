@@ -50,7 +50,7 @@ namespace BodySculptor.Exercises
 
                 //if (env.IsDevelopment())
                 //{
-                    dbContext.Database.Migrate();
+                dbContext.Database.Migrate();
                 //}
 
                 new ExercisesDbContextSeeder()

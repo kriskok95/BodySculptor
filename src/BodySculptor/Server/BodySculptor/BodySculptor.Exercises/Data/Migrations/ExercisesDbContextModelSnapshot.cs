@@ -4,22 +4,43 @@ using BodySculptor.Exercises.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BodySculptor.Exercises.Migrations
 {
     [DbContext(typeof(ExercisesDbContext))]
-    [Migration("20200715082334_InitialCreate")]
-    partial class InitialCreate
+    partial class ExercisesDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BodySculptor.Common.Data.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("serializedData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
 
             modelBuilder.Entity("BodySculptor.Exercises.Data.Entities.Exercise", b =>
                 {
@@ -158,12 +179,16 @@ namespace BodySculptor.Exercises.Migrations
                     b.Property<int>("TotalCaloriesBurned")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TrainingSessions");
                 });
@@ -246,9 +271,7 @@ namespace BodySculptor.Exercises.Migrations
                 {
                     b.HasOne("BodySculptor.Exercises.Data.Entities.User", "User")
                         .WithMany("TrainingSessions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }

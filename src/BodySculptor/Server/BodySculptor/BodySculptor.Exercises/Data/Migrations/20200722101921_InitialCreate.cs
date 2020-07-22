@@ -70,17 +70,18 @@ namespace BodySculptor.Exercises.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     TimeSpendSeconds = table.Column<int>(nullable: false),
                     TotalCaloriesBurned = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    UserId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrainingSessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingSessions_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_TrainingSessions_Users_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,9 +187,9 @@ namespace BodySculptor.Exercises.Migrations
                 column: "MuscleGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingSessions_UserId",
+                name: "IX_TrainingSessions_UserId1",
                 table: "TrainingSessions",
-                column: "UserId");
+                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
