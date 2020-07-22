@@ -1,25 +1,31 @@
-﻿using BodySculptor.Exercises.Services.Interfaces;
-
-namespace BodySculptor.Exercises.Services
+﻿namespace BodySculptor.Exercises.Services
 {
+    using BodySculptor.Exercises.Services.Interfaces;
+    using BodySculptor.Common.Data.Entities;
+    using BodySculptor.Common.Messages.Exercises;
+    using BodySculptor.Common.Services;
     using BodySculptor.Exercises.Constants;
     using BodySculptor.Exercises.Data;
     using BodySculptor.Exercises.Data.Entities;
     using BodySculptor.Exercises.Models.Exercises;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class ExercisesService : IExercisesService
+    public class ExercisesService : DataService<Exercise>, IExercisesService
     {
         private readonly ExercisesDbContext context;
+        private readonly IBus publisher;
 
-        public ExercisesService(ExercisesDbContext context)
+        public ExercisesService(ExercisesDbContext context, IBus publisher)
+            :base(context)
         {
             this.context = context;
+            this.publisher = publisher;
         }
 
         public async Task<IEnumerable<ExerciseDto>> GetAllExercisesAsync()
@@ -64,9 +70,15 @@ namespace BodySculptor.Exercises.Services
             var exerciseForDb = input
                 .MapTo<Exercise>();
 
-            await this.context
-                .Exercises
-                .AddAsync(exerciseForDb);
+            var messageData = new ExerciseCreatedMessage { };
+
+            var message = new Message(messageData);
+
+            await this.Save(exerciseForDb, message);
+
+            await this.publisher.Publish(messageData);
+
+            await this.MarkMessageAsPublished(message.Id);
 
             var muscleGroupExercises = new List<MuscleGroupExercises>();
 

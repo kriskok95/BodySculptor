@@ -1,10 +1,12 @@
 ﻿namespace BodySculptor.Articles.Services.Interfaces
 {
+    using BodySculptor.Articles.Data.Entities;
     using BodySculptor.Articles.Models.Articles;
+    using BodySculptor.Common.Services.Intefraces;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IArticlesService
+    public interface IArticlesService : IDataService<Article>
     {
         Task<IEnumerable<ArticleDto>> GetAllArticlesAsync();
 

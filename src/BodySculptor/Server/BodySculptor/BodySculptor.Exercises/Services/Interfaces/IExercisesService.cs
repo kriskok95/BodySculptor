@@ -1,10 +1,12 @@
 ﻿namespace BodySculptor.Exercises.Services.Interfaces
 {
+    using BodySculptor.Common.Services.Intefraces;
+    using BodySculptor.Exercises.Data.Entities;
     using BodySculptor.Exercises.Models.Exercises;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IExercisesService
+    public interface IExercisesService : IDataService<Exercise>
     {
         Task<IEnumerable<ExerciseDto>> GetAllExercisesAsync();
 

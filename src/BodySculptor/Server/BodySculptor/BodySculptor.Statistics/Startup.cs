@@ -2,6 +2,7 @@ namespace BodySculptor.Statistics
 {
     using AutoMapper;
     using BodySculptor.Common.Infrastructure;
+    using BodySculptor.Common.Messages.Nutrition;
     using BodySculptor.Services.Mapping;
     using BodySculptor.Statistics.Data;
     using BodySculptor.Statistics.Data.Seeding;
@@ -32,9 +33,15 @@ namespace BodySculptor.Statistics
             services.AddWebService<StatisticsDbContext>(this.Configuration)
                 .AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddMessaging(this.Configuration, typeof(TrainingSessionCreatedConsumer), typeof(DailyMenuCreatedConsumer));
+            services.AddMessaging(this.Configuration
+                , typeof(TrainingSessionCreatedConsumer)
+                , typeof(DailyMenuCreatedConsumer)
+                , typeof(FoodCreatedConsumer)
+                , typeof(ExerciseCreatedConsumer)
+                , typeof(ArticleCreatedConsumer));
 
             services.AddTransient<IAdministraionStatisticsService, AdministrationStatisticsService>();
+            services.AddTransient<IClientStatisticsService, ClientStatisticsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

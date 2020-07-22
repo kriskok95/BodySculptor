@@ -1,6 +1,8 @@
 ﻿namespace BodySculptor.Nutrition.Services
 {
     using AutoMapper.QueryableExtensions;
+    using BodySculptor.Common.Data.Entities;
+    using BodySculptor.Common.Messages.Nutrition;
     using BodySculptor.Common.Services;
     using BodySculptor.Nutrition.Constants;
     using BodySculptor.Nutrition.Data;
@@ -8,18 +10,22 @@
     using BodySculptor.Nutrition.Models.Foods;
     using BodySculptor.Nutrition.Services.Interfaces;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class FoodsService : IFoodsService
+    public class FoodsService : DataService<Food>, IFoodsService
     {
         private readonly NutritionDbContext context;
-    
-        public FoodsService(NutritionDbContext context)
+        private readonly IBus publisher;
+
+        public FoodsService(NutritionDbContext context, IBus publisher)
+            :base(context)
         {
             this.context = context;
+            this.publisher = publisher;
         }
 
         public async Task<Result<FoodDto>> GetFoodAsync(int foodId)
@@ -66,12 +72,15 @@
                 return Result<FoodDto>.Failure(new List<string> { FoodsConstants.ExistingFoodByName });
             }
 
-            await context
-               .Foods
-               .AddAsync(foodForDb);
+            var messageData = new FoodCreatedMessage { FoodName = foodForDb.Name };
 
-            await context
-                .SaveChangesAsync();
+            var message = new Message(messageData);
+
+            await this.Save(foodForDb, message);
+
+            await this.publisher.Publish(messageData);
+
+            await this.MarkMessageAsPublished(message.Id);
 
             var foodFromDb = await context
                 .Foods

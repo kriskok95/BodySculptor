@@ -2,11 +2,13 @@
 namespace BodySculptor.Nutrition.Services.Interfaces
 {
     using BodySculptor.Common.Services;
+    using BodySculptor.Common.Services.Intefraces;
+    using BodySculptor.Nutrition.Data.Entities;
     using BodySculptor.Nutrition.Models.Foods;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IFoodsService
+    public interface IFoodsService : IDataService<Food>
     {
         Task<IEnumerable<FoodDto>> GetFoodsAsync();
 

@@ -26,6 +26,7 @@
             var seeders = new List<ISeeder<StatisticsDbContext>>
                           {
                               new AdministrationStatisticsSeeder(),
+                              new ClientStatisticsSeeder(),
                           };
 
             foreach (var seeder in seeders)

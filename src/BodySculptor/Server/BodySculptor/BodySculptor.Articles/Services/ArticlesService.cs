@@ -4,21 +4,30 @@
     using BodySculptor.Articles.Data.Entities;
     using BodySculptor.Articles.Models.Articles;
     using BodySculptor.Articles.Services.Interfaces;
+    using BodySculptor.Common.Data.Entities;
+    using BodySculptor.Common.Messages.Articles;
+    using BodySculptor.Common.Services;
     using BodySculptor.Common.Services.Intefraces;
     using BodySculptor.Services.Mapping;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class ArticlesService : IArticlesService
+    public class ArticlesService : DataService<Article>, IArticlesService
     {
         private readonly ArticlesDbContext context;
         private readonly ICurrentUserService currentUserService;
+        private readonly IBus publisher;
 
-        public ArticlesService(ArticlesDbContext context, ICurrentUserService currentUserService)
+        public ArticlesService(ArticlesDbContext context
+            , ICurrentUserService currentUserService
+            , IBus publisher)
+            :base(context)
         {
             this.context = context;
             this.currentUserService = currentUserService;
+            this.publisher = publisher;
         }
 
         public async Task<IEnumerable<ArticleDto>> GetAllArticlesAsync()
@@ -53,11 +62,15 @@
 
             articleForDb.AuthorId = currentUserId;
 
-            await this.context
-                .Articles
-                .AddAsync(articleForDb);
+            var messageData = new ArticlesCreatedMessage { };
 
-            await this.context.SaveChangesAsync();
+            var message = new Message(messageData);
+
+            await this.Save(articleForDb, message);
+
+            await this.publisher.Publish(messageData);
+
+            await this.MarkMessageAsPublished(message.Id);
 
             var articleToReturn = articleForDb
                 .MapTo<ArticleDto>();
