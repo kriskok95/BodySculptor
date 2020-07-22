@@ -25,6 +25,7 @@
                 .AddDatabase<TDbContext>(configuration)
                 .AddApplicationSettings(configuration)
                 .AddTokenAuthentication(configuration)
+                .AddHealth(configuration)
                 .AddControllers();
 
             services.AddHttpContextAccessor();
@@ -91,6 +92,18 @@
             return services;
         }
 
+        public static IServiceCollection AddHealth(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var healthChecks = services.AddHealthChecks();
+            healthChecks.AddSqlServer(configuration.GetDefaultConnectionString());
+            healthChecks.AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmq:rabbitmq@rabbitmq/");
+
+            return services;
+        }
+
+
         public static IServiceCollection AddMessaging(
             this IServiceCollection services,
             IConfiguration configuration,
@@ -111,6 +124,8 @@
                             host.Username("rabbitmq");
                             host.Password("rabbitmq");
                         });
+
+                        rmq.UseHealthCheck(bus);
 
                         foreach (var consumer in consumers)
                         {
