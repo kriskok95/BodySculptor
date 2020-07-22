@@ -134,11 +134,26 @@ services:
 
         restart: on-failure
         volumes:
-            - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - ./.aspnet/administration/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
         networks: 
             - bodysculptor-network
         depends_on: 
             - data
+            
+    watchdog:
+        container_name: watchdog
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Watchdog/Dockerfile
+        ports: 
+            - "5016:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/watchdog/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
             
 networks:
     bodysculptor-network:
