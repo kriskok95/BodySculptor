@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios';
+import axios from '../../axiosNutrition';
 
 export const setFoods = (foods) => {
     return {

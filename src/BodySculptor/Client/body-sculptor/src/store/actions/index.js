@@ -6,3 +6,6 @@ export {
     onRegister,
     onLogout,
 } from './auth';
+export {
+    fetchArticlesStatistics
+} from './articlesStatistics';

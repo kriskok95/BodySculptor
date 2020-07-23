@@ -63,6 +63,10 @@ namespace BodySculptor.Gateway
                 .UseStaticFiles()
                 .UseRouting()
                 .UseAuthorization()
+                .UseCors(options => options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod())
                 .UseEndpoints(endpoints => endpoints
                     .MapDefaultControllerRoute());
         }
