@@ -1,14 +1,17 @@
 namespace BodySculptor.Gateway
 {
     using BodySculptor.Common.Infrastructure;
-    using BodySculptor.Gateway.Services.interfaces;
+    using BodySculptor.Gateway.Models.Articles;
+    using BodySculptor.Gateway.Services;
+    using BodySculptor.Gateway.Services.Interfaces;
+    using BodySculptor.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Refit;
-    using System;
+    using System.Reflection;
 
     public class Startup
     {
@@ -21,34 +24,47 @@ namespace BodySculptor.Gateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceEndpoints = this.Configuration
+                .GetSection(nameof(ServiceEndpoints))
+                .Get<ServiceEndpoints>(config => config.BindNonPublicProperties = true);
+
             services.AddControllers();
 
-            services
-                .AddApplicationSettings(this.Configuration)
-                .AddTokenAuthentication(this.Configuration);
+            services.AddHealthChecks();
+
+            services.AddTransient<IArticlesStatisticsService, ArticlesStatisticsService>();
 
             services
-                .AddRefitClient<IExercisesRegisterService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5006"));
+               .AddRefitClient<IArticlesService>()
+               .WithConfiguration(serviceEndpoints.Articles);
+
+            services
+               .AddRefitClient<IStatisticsService>()
+               .WithConfiguration(serviceEndpoints.Statistics);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            AutoMapperConfig.RegisterMappings(typeof(ArticleDto).GetTypeInfo().Assembly);
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app
+                    .UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app
+                    .UseExceptionHandler("/Home/Error")
+                    .UseHsts();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints => endpoints
+                    .MapDefaultControllerRoute());
         }
     }
 }

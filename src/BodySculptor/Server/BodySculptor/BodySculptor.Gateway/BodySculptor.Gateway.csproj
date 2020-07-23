@@ -2,14 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>0e68d2d4-da55-4499-8d0b-40c5a4fa79dc</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BodySculptor.Common\BodySculptor.Common.csproj" />
+    <ProjectReference Include="..\BodySculptor.Services.Mapping\BodySculptor.Services.Mapping.csproj" />
   </ItemGroup>
 
 

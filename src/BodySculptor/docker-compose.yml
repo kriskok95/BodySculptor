@@ -155,6 +155,21 @@ services:
         networks: 
             - bodysculptor-network
             
+    gateway:
+        container_name: gateway
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Gateway/Dockerfile
+        ports: 
+            - "5018:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/gateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+            
 networks:
     bodysculptor-network:
 

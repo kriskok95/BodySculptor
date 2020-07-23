@@ -1,6 +1,8 @@
 ﻿namespace BodySculptor.Statistics.Services
 {
+    using BodySculptor.Services.Mapping;
     using BodySculptor.Statistics.Data;
+    using BodySculptor.Statistics.Models.ClientStatistics;
     using BodySculptor.Statistics.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
@@ -14,6 +16,18 @@
         public ClientStatisticsService(StatisticsDbContext context)
         {
             this.context = context;
+        }
+
+        public async Task<ClientStatisticsDto> GetClientStatisticsAsync()
+        {
+            var clientStatisticsFromDb = await this.context
+                .ClientStatistics
+                .FirstOrDefaultAsync();
+
+            var clientStatisticsToReturn = clientStatisticsFromDb
+                .MapTo<ClientStatisticsDto>();
+
+            return clientStatisticsToReturn;
         }
 
         public async Task<bool> CreateArticleAsync()
