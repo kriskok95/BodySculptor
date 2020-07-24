@@ -5,16 +5,26 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Logout from '../Logout/Logout';
 import ClientStatistics from '../ClientStatistics/ClientStatistics';
+import Articles from '../Articles/Articles';
 
 const Foods = React.lazy(() => {
     return import('../Foods/Foods');
 })
 
+const Exercises = React.lazy(() => {
+    return import('../Exercises/Exercises');
+})
+
 const routes = (props) => {
     return (
         <Switch>
-            <Route path="/home" render={() => <ClientStatistics />}/>
-            <Route path="/exercises" />
+            <Route path="/home" render={() =>
+                <div>
+                    <ClientStatistics />
+                    <Articles />
+                </div>
+            } />
+            <Route path="/exercises" render={() => <Exercises />} />
             <Route path="/foods" render={() => <Foods />} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />

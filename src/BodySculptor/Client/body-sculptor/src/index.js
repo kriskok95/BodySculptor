@@ -11,7 +11,8 @@ import { Provider } from 'react-redux';
 
 import authReducer from './store/reducers/auth';
 import foodsReducer from './store/reducers/foods';
-import articlesStatistics from './store/reducers/articlesStatistics';
+import articlesStatisticsReducer from './store/reducers/articlesStatistics';
+import exercisesReducer from './store/reducers/exercises';
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -20,7 +21,8 @@ const composeEnhancers = process.env.NODE_ENV === 'development'
 const rootReducer = combineReducers({
   auth: authReducer,
   foods: foodsReducer,
-  articlesStatistics:  articlesStatistics,
+  articlesStatistics:  articlesStatisticsReducer,
+  exercises: exercisesReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(

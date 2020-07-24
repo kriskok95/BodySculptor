@@ -9,3 +9,6 @@ export {
 export {
     fetchArticlesStatistics
 } from './articlesStatistics';
+export {
+    fetchExercises
+} from './exercises';

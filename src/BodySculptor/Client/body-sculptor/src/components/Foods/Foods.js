@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Container from 'react-bootstrap/Container';
+import Spinner from 'react-bootstrap/Spinner';
 
 import Food from './Food/Food';
 import * as actions from '../../store/actions/index';
@@ -13,7 +14,7 @@ const Foods = props => {
         onFetchFoods();
     }, [onFetchFoods]);
 
-    let foods = <p>Loading...</p>;
+    let foods = <Spinner animation="border" />;
 
     if (!props.loading) {
         foods = props

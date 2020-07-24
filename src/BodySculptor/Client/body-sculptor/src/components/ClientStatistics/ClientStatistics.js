@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 
 import * as actions from '../../store/actions/index';
 
@@ -13,18 +16,26 @@ const ClientStatistics = props => {
         onFetchArticlesStatistics();
     }, [onFetchArticlesStatistics]);
 
-    let clientStatistics = <p>Loading...</p>
+    let clientStatistics = <Spinner animation="border" />;
 
     if (!props.loading) {
         clientStatistics = <Jumbotron fluid>
             <Container>
-                <h1>Welcome to BodySculptor! :)</h1>
-                <p>
-                    You can build your own training programs choosing between:
-            {props.clientStatistics.totalExercises} exercises, track your nutrition plan
-            choosing between: {props.clientStatistics.totalFoods} foods and gain some knowledge
-            by reading: {props.clientStatistics.totalArticles} articles.
-          </p>
+                <Row className="justify-content-md-center mb-3">
+                    <Col md="auto">
+                        <h1>Welcome to BodySculptor! :)</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <p style={{fontSize: "20px"}}>
+                            You can build your own training programs choosing between:
+                            <strong>{props.clientStatistics.totalExercises}</strong> exercises, track your nutrition plan
+                            choosing between: <strong>{props.clientStatistics.totalFoods}</strong> foods and gain some knowledge
+                            by reading: <strong>{props.clientStatistics.totalArticles}</strong> articles.
+                        </p>
+                    </Col>
+                </Row>
             </Container>
         </Jumbotron>
     };
