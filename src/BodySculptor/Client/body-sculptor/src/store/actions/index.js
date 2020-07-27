@@ -12,3 +12,6 @@ export {
 export {
     fetchExercises
 } from './exercises';
+export {
+    fetchDailyMenus
+} from './dailyMenus';

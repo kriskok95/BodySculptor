@@ -13,6 +13,7 @@ import authReducer from './store/reducers/auth';
 import foodsReducer from './store/reducers/foods';
 import articlesStatisticsReducer from './store/reducers/articlesStatistics';
 import exercisesReducer from './store/reducers/exercises';
+import dailyMenusReducer from './store/reducers/dailyMenus';
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   foods: foodsReducer,
   articlesStatistics:  articlesStatisticsReducer,
   exercises: exercisesReducer,
+  dailymenus: dailyMenusReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(

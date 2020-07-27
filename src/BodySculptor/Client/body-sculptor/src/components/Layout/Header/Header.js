@@ -21,6 +21,7 @@ const header = (props) => {
                     <NavItem name="Login" link="/login" />
                 </Nav>
                 : <Nav>
+                    <NavItem name="Daily Menus" link="/dailyMenus" />
                     <NavItem name={`Hello, ${props.username}`} link="/home" />
                     <NavItem name="Logout" link="/logout" />
                 </Nav>}

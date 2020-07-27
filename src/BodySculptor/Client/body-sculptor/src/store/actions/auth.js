@@ -50,8 +50,8 @@ export const auth = (username, password) => {
 
         axios.post('api/identity/login', authData)
             .then(function (response) {
-                localStorage.setItem('token', response.data);
-                dispatch(authSuccess(response.data, username))
+                localStorage.setItem('token', response.data['token']);
+                dispatch(authSuccess(response.data['token'], username));
             })
             .catch(function (error) {
                 console.log(error);

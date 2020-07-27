@@ -15,6 +15,10 @@ const Exercises = React.lazy(() => {
     return import('../Exercises/Exercises');
 })
 
+const DailyMenus = React.lazy(() => {
+    return import('../DailyMenus/DailyMenus');
+})
+
 const routes = (props) => {
     return (
         <Switch>
@@ -26,6 +30,7 @@ const routes = (props) => {
             } />
             <Route path="/exercises" render={() => <Exercises />} />
             <Route path="/foods" render={() => <Foods />} />
+            <Route path="/dailymenus" render={() => <DailyMenus />} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
