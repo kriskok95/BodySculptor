@@ -8,7 +8,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
-    using System.Runtime.InteropServices.WindowsRuntime;
     using System.Threading.Tasks;
 
     public class DailyMenusController : ApiController

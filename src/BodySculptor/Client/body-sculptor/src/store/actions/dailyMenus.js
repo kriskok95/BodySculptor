@@ -17,12 +17,19 @@ export const startFetchDailyMenus = () => {
 export const fetchDailyMenus = () => {
     return dispatch => {
         dispatch(startFetchDailyMenus());
-        axios.get('/api/dailymenus')
-            .then(response => {
-                dispatch(setDailyMenus(response.data));
+        var token = localStorage.getItem('token');
+        if (token) {
+            axios.get('/api/dailymenus', {
+                headers: {
+                    Authorization: 'Bearer ' + token //the token is a variable which holds the token
+                }
             })
-            .catch(error => {
-                console.log(error);
-            });
+                .then(response => {
+                    dispatch(setDailyMenus(response.data));
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     };
 };
