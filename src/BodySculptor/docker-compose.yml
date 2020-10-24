@@ -170,6 +170,29 @@ services:
         depends_on: 
             - data
             
+    client:
+        container_name: client
+        build:
+            context: ./Client/body-sculptor
+            dockerfile: ./Dockerfile
+        restart: on-failure
+        volumes:
+            - '.:/app'
+            - '/app/node_modules'
+        ports:
+            - 3000:3000
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        networks: 
+            - bodysculptor-network
+        depends_on:
+            - identity
+            - nutrition
+            - exercises
+            - articles
+            - statistics
+        stdin_open: true
+            
 networks:
     bodysculptor-network:
 
