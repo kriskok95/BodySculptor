@@ -1,6 +1,7 @@
 ﻿namespace BodySculptor.Identity.Data.Seeding
 {
     using BodySculptor.Common.Data.Seeding;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
@@ -8,6 +9,13 @@
 
     public class IdentityDbContextSeeder : ISeeder<IdentityDbContext>
     {
+        private readonly IApplicationBuilder app;
+
+        public IdentityDbContextSeeder(IApplicationBuilder app)
+        {
+            this.app = app;
+        }
+
         public async Task SeedAsync(IdentityDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (dbContext == null)
@@ -25,7 +33,7 @@
 
             var seeders = new List<ISeeder<IdentityDbContext>>
                           {
-                              new IdentitySeeder(),
+                              new IdentitySeeder(app),
                           };
 
             foreach (var seeder in seeders)

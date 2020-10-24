@@ -8,14 +8,11 @@ namespace BodySculptor.Identity
     using BodySculptor.Identity.Infrastructure;
     using BodySculptor.Identity.Services;
     using BodySculptor.Identity.Services.Interfaces;
-    using GreenPipes;
-    using MassTransit;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Refit;
     using System;
 
@@ -76,12 +73,9 @@ namespace BodySculptor.Identity
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<IdentityDbContext>();
 
-                //if (env.IsDevelopment())
-                //{
-                    dbContext.Database.Migrate();
-                //}
+                dbContext.Database.Migrate();
 
-                new IdentitySeeder()
+                new IdentitySeeder(app)
                     .SeedAsync(dbContext, serviceScope.ServiceProvider)
                     .GetAwaiter()
                     .GetResult();

@@ -27,25 +27,6 @@ services:
             - RABBITMQ_DEFAULT_PASS=rabbitmq
         networks: 
             - bodysculptor-network
-
-    identity:
-        container_name: identity
-        build:
-            context: ./Server/BodySculptor
-            dockerfile: ./BodySculptor.Identity/Dockerfile
-        ports: 
-            - "5003:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
-        environment:
-            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorIdentityDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
-
-        restart: on-failure
-        volumes:
-            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
-        networks: 
-            - bodysculptor-network
-        depends_on: 
-            - data
             
     nutrition:
         container_name: nutrition
@@ -169,6 +150,25 @@ services:
             - ./.aspnet/gateway/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
         networks: 
             - bodysculptor-network
+            
+    identity:
+        container_name: identity
+        build:
+            context: ./Server/BodySculptor
+            dockerfile: ./BodySculptor.Identity/Dockerfile
+        ports: 
+            - "5003:80"
+        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorIdentityDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+
+        restart: on-failure
+        volumes:
+            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - bodysculptor-network
+        depends_on: 
+            - data
             
 networks:
     bodysculptor-network:

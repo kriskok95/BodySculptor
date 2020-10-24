@@ -2,9 +2,12 @@
 {
     using BodySculptor.Common.Constants;
     using BodySculptor.Common.Data.Seeding;
+    using BodySculptor.Common.Messages.Identity;
     using BodySculptor.Identity.Data.Entities;
     using BodySculptor.Identity.Models.Identity;
     using BodySculptor.Identity.Services.Interfaces;
+    using MassTransit;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -14,17 +17,29 @@
 
     public class IdentitySeeder : ISeeder<IdentityDbContext>
     {
-        public async Task SeedAsync(IdentityDbContext dbContext, IServiceProvider serviceProvider)
+        private readonly IApplicationBuilder app;
+
+        public IdentitySeeder(IApplicationBuilder app)
+        {
+            this.app = app;
+        }
+
+        public async Task SeedAsync(IdentityDbContext dbContext
+            , IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var exerciseRegisterService = serviceProvider.GetRequiredService<IExercisesRegisterService>();
             var nutritionRegisterService = serviceProvider.GetRequiredService<INutritionRegisterService>();
 
-            await SeedRoleAsync(roleManager, userManager, exerciseRegisterService, nutritionRegisterService, UsersConstants.AdministratorRole);
+            var userId = await SeedRoleAsync(roleManager, userManager, exerciseRegisterService, nutritionRegisterService, UsersConstants.AdministratorRole);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                await SendUserCreatedMessage(userId);
+            }
         }
 
-        private static async Task SeedRoleAsync(
+        private async Task<string> SeedRoleAsync(
             RoleManager<IdentityRole> roleManager
             , UserManager<User> userManager
             , IExercisesRegisterService exerciseRegisterService
@@ -54,14 +69,27 @@
 
                 var result = await userManager.CreateAsync(user, password);
 
-                await nutritionRegisterService.Register(new RegisterNutritionUserInputModel { UserId = user.Id});
-                await exerciseRegisterService.Register(new RegisterExerciseUserInputModel { UserId = user.Id });
+                //await nutritionRegisterService.Register(new RegisterNutritionUserInputModel { UserId = user.Id });
+                //await exerciseRegisterService.Register(new RegisterExerciseUserInputModel { UserId = user.Id });
 
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, UsersConstants.AdministratorRole);
                 }
+                return user?.Id;
             }
+            //TODO: Refactor this
+            return string.Empty;
+        }
+        private async Task SendUserCreatedMessage(string userId)
+        {
+            using var serviceScope = app.ApplicationServices.CreateScope();
+          
+            var publisher = serviceScope.ServiceProvider.GetRequiredService<IBus>();
+
+            var message = new UserCreatedMessage { UserId = userId };
+
+            await publisher.Publish(message);
         }
     }
 }
