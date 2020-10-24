@@ -18,6 +18,7 @@ export const successRegister = () => {
 
 export const onLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     return {
         type: actionTypes.ON_LOGOUT,
     }
@@ -51,10 +52,21 @@ export const auth = (username, password) => {
         axios.post('api/identity/login', authData)
             .then(function (response) {
                 localStorage.setItem('token', response.data['token']);
+                localStorage.setItem('username', username);
                 dispatch(authSuccess(response.data['token'], username));
             })
             .catch(function (error) {
                 console.log(error);
             });
     };
+};
+
+export const isAuthenticated = () => {
+    var token = localStorage.getItem('token');
+    var username = localStorage.getItem('username');
+    return {
+        type: actionTypes.IS_AUTHENTICATED,
+        token: token,
+        username: username,
+    }
 };

@@ -22,10 +22,19 @@ export const onLogout = (state, action) => {
     });
 };
 
+export const isAuthenticated = (state, action) => {
+    return updateObject(state, {
+        token: action.token,
+        isAuth: action.token ? true : false,
+        username: action.username,
+    })
+}
+
 const reducer = (state = initialState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.ON_LOGOUT: return onLogout(state, action);
+        case actionTypes.IS_AUTHENTICATED: return isAuthenticated(state, action);
         default: return state;
     }
 }

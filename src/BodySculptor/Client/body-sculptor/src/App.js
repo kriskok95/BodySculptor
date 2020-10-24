@@ -1,10 +1,16 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { connect } from 'react-redux';
 
 import Layout from "./components/Layout/Layout";
 import Routes from './components/Routes/Routes';
 import "./App.css";
+import { isAuthenticated } from "./store/actions";
 
-const app = (props) => {
+const App = (props) => {
+  useEffect(() => {
+    props.isAuthenticated();
+  });
+
   return (
     <Layout>
       <Suspense fallback={<p>Loading...</p>}>
@@ -14,4 +20,10 @@ const app = (props) => {
   );
 }
 
-export default app;
+const mapDispatchToProps = dispatch => {
+  return {
+    isAuthenticated: () => dispatch(isAuthenticated()),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

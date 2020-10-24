@@ -5,6 +5,7 @@ export {
     auth,
     onRegister,
     onLogout,
+    isAuthenticated,
 } from './auth';
 export {
     fetchArticlesStatistics

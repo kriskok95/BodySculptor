@@ -9,7 +9,7 @@ import styles from './Header.module.css';
 const header = (props) => {
     return (
         <Navbar bg="dark" variant="dark" className={styles.header}>
-            <Navbar.Brand href="/home">BodySculptor</Navbar.Brand>
+            <Navbar.Brand link="/home">BodySculptor</Navbar.Brand>
             <Nav className="mr-auto">
                 <NavItem name="Home" link="/home" />
                 <NavItem name="Exercises" link="/exercises" />
