@@ -30,6 +30,7 @@ services:
             
     nutrition:
         container_name: nutrition
+        image: krisko95/body-sculptor-nutrition-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Nutrition/Dockerfile
@@ -49,6 +50,7 @@ services:
             
     exercises:
         container_name: exercises
+        image: krisko95/body-sculptor-exercises-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Exercises/Dockerfile
@@ -68,6 +70,7 @@ services:
             
     statistics:
         container_name: statistics
+        image: krisko95/body-sculptor-statistics-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Statistics/Dockerfile
@@ -87,6 +90,7 @@ services:
             
     articles:
         container_name: articles
+        image: krisko95/body-sculptor-articles-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Articles/Dockerfile
@@ -106,6 +110,7 @@ services:
             
     administration:
         container_name: administration
+        image: krisko95/body-sculptor-administration-client:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Administration/Dockerfile
@@ -123,6 +128,7 @@ services:
             
     watchdog:
         container_name: watchdog
+        image: krisko95/body-sculptor-watchdog-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Watchdog/Dockerfile
@@ -138,6 +144,7 @@ services:
             
     gateway:
         container_name: gateway
+        image: krisko95/body-sculptor-gateway-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Gateway/Dockerfile
@@ -153,6 +160,7 @@ services:
             
     identity:
         container_name: identity
+        image: krisko95/body-sculptor-identity-service:1.0
         build:
             context: ./Server/BodySculptor
             dockerfile: ./BodySculptor.Identity/Dockerfile
@@ -172,6 +180,7 @@ services:
             
     client:
         container_name: client
+        image: krisko95/body-sculptor-user-client:1.0
         build:
             context: ./Client/body-sculptor
             dockerfile: ./Dockerfile
