@@ -32,11 +32,11 @@ services:
         container_name: nutrition
         image: krisko95/body-sculptor-nutrition-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Nutrition/Dockerfile
         ports: 
             - "5006:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporNutritionDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
 
@@ -52,11 +52,11 @@ services:
         container_name: exercises
         image: krisko95/body-sculptor-exercises-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Exercises/Dockerfile
         ports: 
             - "5008:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporExercisesDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
 
@@ -72,11 +72,11 @@ services:
         container_name: statistics
         image: krisko95/body-sculptor-statistics-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Statistics/Dockerfile
         ports: 
             - "5014:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorStatisticsDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
 
@@ -92,11 +92,11 @@ services:
         container_name: articles
         image: krisko95/body-sculptor-articles-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Articles/Dockerfile
         ports: 
             - "5010:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodyScultporArticlesDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
 
@@ -112,11 +112,11 @@ services:
         container_name: administration
         image: krisko95/body-sculptor-administration-client:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Administration/Dockerfile
         ports: 
             - "5012:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
 
         restart: on-failure
         volumes:
@@ -130,11 +130,11 @@ services:
         container_name: watchdog
         image: krisko95/body-sculptor-watchdog-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Watchdog/Dockerfile
         ports: 
             - "5016:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
 
         restart: on-failure
         volumes:
@@ -146,11 +146,11 @@ services:
         container_name: gateway
         image: krisko95/body-sculptor-gateway-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Gateway/Dockerfile
         ports: 
             - "5018:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
 
         restart: on-failure
         volumes:
@@ -162,11 +162,11 @@ services:
         container_name: identity
         image: krisko95/body-sculptor-identity-service:1.0
         build:
-            context: ./Server/BodySculptor
+            context: ./Server
             dockerfile: ./BodySculptor.Identity/Dockerfile
         ports: 
             - "5003:80"
-        env_file: Server/BodySculptor/BodySculptor.Common/Common.env
+        env_file: Server/BodySculptor.Common/Common.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BodySculptorIdentityDb;User Id=sa;Password=yourStrongPassword12!@;MultipleActiveResultSets=true
 
@@ -182,7 +182,7 @@ services:
         container_name: client
         image: krisko95/body-sculptor-user-client:1.0
         build:
-            context: ./Client/body-sculptor
+            context: ./Client
             dockerfile: ./Dockerfile
         restart: on-failure
         volumes:
