@@ -132,8 +132,7 @@
                             rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
                             {
                                 endpoint.PrefetchCount = 4; // Number of CPUs is default
-                                endpoint.UseMessageRetry(retry => retry.Interval(5, 100));
-
+                                endpoint.UseMessageRetry(retry => retry.Interval(20, 500));
 
                                 endpoint.ConfigureConsumer(bus, consumer);
                             });
