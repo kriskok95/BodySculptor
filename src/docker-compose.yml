@@ -30,7 +30,7 @@ services:
             
     nutrition:
         container_name: nutrition
-        # image: krisko95/body-sculptor-nutrition-service:1.0
+        # image: krisko95/body-sculptor-nutrition-service:1.1
         build:
             context: ./Server
             dockerfile: ./BodySculptor.Nutrition/Dockerfile
@@ -50,7 +50,7 @@ services:
             
     exercises:
         container_name: exercises
-        # image: krisko95/body-sculptor-exercises-service:1.0
+        # image: krisko95/body-sculptor-exercises-service:1.1
         build:
             context: ./Server
             dockerfile: ./BodySculptor.Exercises/Dockerfile
@@ -90,7 +90,7 @@ services:
             
     articles:
         container_name: articles
-        # image: krisko95/body-sculptor-articles-service:1.0
+        # image: krisko95/body-sculptor-articles-service:1.1
         build:
             context: ./Server
             dockerfile: ./BodySculptor.Articles/Dockerfile
