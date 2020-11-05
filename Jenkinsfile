@@ -51,15 +51,15 @@ pipeline {
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'Docker hub') {
 		    def images = [
-			'krisko95/body-sculptor-identity-service',
-			'krisko95/body-sculptor-nutrition-service',
-			'krisko95/body-sculptor-exercises-service',
-			'krisko95/body-sculptor-statistics-service',
-			'krisko95/body-sculptor-articles-service',
-			'krisko95/body-sculptor-administration-client',
-			'krisko95/body-sculptor-watchdog-service',
-			'krisko95/body-sculptor-gateway-service',
-			'krisko95/body-sculptor-user-client']
+			docker.image('krisko95/body-sculptor-identity-service'),
+			docker.image('krisko95/body-sculptor-nutrition-service'),
+			docker.image('krisko95/body-sculptor-exercises-service'),
+			docker.image('krisko95/body-sculptor-statistics-service'),
+			docker.image('krisko95/body-sculptor-articles-service'),
+			docker.image('krisko95/body-sculptor-administration-client'),
+			docker.image('krisko95/body-sculptor-watchdog-service'),
+			docker.image('krisko95/body-sculptor-gateway-service'),
+			docker.image('krisko95/body-sculptor-user-client')]
 			
 			images.each{ image ->
 				image.push("1.0.${env.BUILD_ID}")
