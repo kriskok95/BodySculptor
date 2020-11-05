@@ -45,6 +45,18 @@ pipeline {
 		powershell(script: 'docker images -a')
 	  }
 	}
+	stage('Push Images') {
+      when { branch 'master' }
+      steps {
+        script {
+          docker.withRegistry('https://index.docker.io/v1/', 'Docker hub') {
+            def image = docker.image("krisko95/body-sculptor-identity-service")
+            image.push("1.0.${env.BUILD_ID}")
+            image.push('latest')
+          }
+        }
+      }
+    }
   }
 }
 
